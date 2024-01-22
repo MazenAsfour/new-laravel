@@ -238,7 +238,6 @@
         <script>
             function lanuchModalUpdate(id) {
                 $('.modal-update').modal("show");
-                console.log($("#" + id + "name").text())
                 $("#Username").val($("#" + id + "name").text())
                 $("#Email").val($("#" + id + "email").text())
                 $(".profile-pic").attr("src", $("#" + id + "img").attr('src'))

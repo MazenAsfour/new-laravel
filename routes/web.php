@@ -22,34 +22,41 @@ Route::get('/contact',[App\Http\Controllers\PublicController::class, 'contact_vi
 Route::post('/contact-message',[App\Http\Controllers\PublicController::class, 'contact_message']);
 
 
+
 // Dashborad Routes
-Route::get('/dashboard',[App\Http\Controllers\AdminController::class, 'index']);
-Route::get('/dashboard-users',[App\Http\Controllers\AdminController::class, 'users']);
-Route::post('/dashboard-update-user',[App\Http\Controllers\AdminController::class, 'update_user']);
-Route::get('/dashboard-delete-user',[App\Http\Controllers\AdminController::class, 'delete_user']);
-Route::get('/dashboard-admin-profile',[App\Http\Controllers\AdminController::class, 'admin_profile']);
-Route::get('/dashboard-check-password',[App\Http\Controllers\AdminController::class, 'check_password']);
-Route::get('/dashboard-products',[App\Http\Controllers\AdminController::class, 'products']);
-Route::post('/dashboard-add-products',[App\Http\Controllers\AdminController::class, 'add_products']);
-Route::post('/dashboard-update-products',[App\Http\Controllers\AdminController::class, 'update_products']);
-Route::post('/dashboard-delete-products',[App\Http\Controllers\AdminController::class, 'delete_products']);
-Route::get('/dashboard-contact',[App\Http\Controllers\AdminController::class, 'contact']);
-Route::post('/dashboard-send-contact',[App\Http\Controllers\sendEmail::class, 'sendContactMailAdmin']);
-Route::get('/dashboard-get-unread-contact',[App\Http\Controllers\AdminController::class, 'get_unread_message']);
-Route::get('/dashboard-mark-as-read',[App\Http\Controllers\AdminController::class, 'mark_as_read']);
-Route::get('/dashboard-notifications',[App\Http\Controllers\AdminController::class, 'get_notifications']);
-Route::get('/dashboard-notifications-image/{id}',[App\Http\Controllers\AdminController::class, 'get_notifications_image']);
-Route::get('/dashboard-count-notifications',[App\Http\Controllers\AdminController::class, 'get_notifications_count']);
-Route::get('/dashboard-read-notifications',[App\Http\Controllers\AdminController::class, 'update_read_notifications']);
-Route::get('/dashboard-admins',[App\Http\Controllers\AdminController::class, 'dashboard_admins']);
-Route::post('/dashborad-modify-admin',[App\Http\Controllers\AdminController::class, 'modifiyAdmin']);
-Route::post('/dashboard-add-admin',[App\Http\Controllers\AdminController::class, 'add_new_admin']);
+Route::middleware(['dashboardAccess'])->group(function () {
+    Route::get('/dashboard/products/data', [App\Http\Controllers\AdminController::class, 'getProdcuts'])->name('products.data');
+
+    Route::get('/dashboard',[App\Http\Controllers\AdminController::class, 'index']);
+    Route::get('/dashboard-users',[App\Http\Controllers\AdminController::class, 'users']);
+    Route::post('/dashboard-update-user',[App\Http\Controllers\AdminController::class, 'update_user']);
+    Route::get('/dashboard-delete-user',[App\Http\Controllers\AdminController::class, 'delete_user']);
+    Route::get('/dashboard-admin-profile',[App\Http\Controllers\AdminController::class, 'admin_profile']);
+    Route::get('/dashboard-check-password',[App\Http\Controllers\AdminController::class, 'check_password']);
+    Route::get('/dashboard-products',[App\Http\Controllers\AdminController::class, 'products']);
+    Route::post('/dashboard-add-product',[App\Http\Controllers\AdminController::class, 'add_product']);
+    Route::post('/dashboard-update-product',[App\Http\Controllers\AdminController::class, 'update_product']);
+    Route::post('/dashboard-delete-product',[App\Http\Controllers\AdminController::class, 'delete_product']);
+    Route::get('/dashboard-single-product/{id}',[App\Http\Controllers\AdminController::class, 'single_product']);
+
+    Route::get('/dashboard-contact',[App\Http\Controllers\AdminController::class, 'contact']);
+    Route::post('/dashboard-send-contact',[App\Http\Controllers\sendEmail::class, 'sendContactMailAdmin']);
+    Route::get('/dashboard-get-unread-contact',[App\Http\Controllers\AdminController::class, 'get_unread_message']);
+    Route::get('/dashboard-mark-as-read',[App\Http\Controllers\AdminController::class, 'mark_as_read']);
+    Route::get('/dashboard-notifications',[App\Http\Controllers\AdminController::class, 'get_notifications']);
+    Route::get('/dashboard-notifications-image/{id}',[App\Http\Controllers\AdminController::class, 'get_notifications_image']);
+    Route::get('/dashboard-count-notifications',[App\Http\Controllers\AdminController::class, 'get_notifications_count']);
+    Route::get('/dashboard-read-notifications',[App\Http\Controllers\AdminController::class, 'update_read_notifications']);
+    Route::get('/dashboard-admins',[App\Http\Controllers\AdminController::class, 'dashboard_admins']);
+    Route::post('/dashborad-modify-admin',[App\Http\Controllers\AdminController::class, 'modifiyAdmin']);
+    Route::post('/dashboard-add-admin',[App\Http\Controllers\AdminController::class, 'add_new_admin']);
+});
+// End Dashborad Routes
 
 
 Route::get('/test',[App\Http\Controllers\AdminController::class, "test"]);
 
 
-// End Dashborad Routes
 
 // Upload Image Routes
 Route::post('upload-image', [App\Http\Controllers\AjaxUploadController::class, 'store']);

@@ -13,17 +13,12 @@ use Illuminate\Mail\Message;
 use App\Models\Products;
 use App\Models\Contact;
 use App\Models\Admin;
-use App\Models\Appointments;
 use App\Models\User;
-use App\Models\Subscription;
 use App\Models\Rating;
 use App\Models\UserData;
 use App\Models\Notifications;
-use Dirape\Token\Token;
-use App\Notifications\postNewNotifications;
-use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\sendEmail;
-
+use DataTables;
 class AdminController extends Controller
 {
 
@@ -31,7 +26,14 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
+        if(Auth::check()){
+            $userId=Auth::user()->id;
+            $checkAdmin =Admin::where("user_id", $userId)->first();
+            if(!$checkAdmin){
+                abort(403);
+            }
+        }
+      
     }
     public function checkAccess(){
         $userId=Auth::user()->id;
@@ -183,6 +185,14 @@ class AdminController extends Controller
         ]);
     }
     
+    public function getProdcuts()
+    {
+
+        $data = Products::query();
+
+        return DataTables::of($data)
+            ->make(true);
+    }
     public function products(){
         $checkAdmin=$this->checkAccess();
         $products=Products::orderBy('id', 'DESC')->get();
@@ -195,60 +205,70 @@ class AdminController extends Controller
 
         }
     }
-    public function charts(){
-        $checkAdmin=$this->checkAccess();
-        $products=Products::get();
-        $user=$this->userSession();
-        if($checkAdmin){
-            return view("dashboard/dashboard-invoice")->with("Isadmin",true)->with("admin",$user)->with("products",$products);;
-        }else{
-            abort("404");
 
-        }
-    }
     public function add_products(Request $request){
-        $checkAdmin=$this->checkAccess();
-        if($checkAdmin){
+     
             try {
-            $product =Products::create([
+            $imageName = time().'.'.$request->image->extension();  
+            
+            $path=$request->image->move(public_path('images'), $imageName);
+            $path="/images/$imageName";
+            Products::where("id",$request->id)->create([
+                "product_image_path"=> $path,
                 "product_name"=>$request->pr_name,
-                "product_image_path"=>$request->pr_image_link,
-                "product_price"=>$request->pr_Price,
-                "product_description"=>$request->pr_description,
-                // "catgory"=>"$request->catgory",
-                "catogry"=>"0",
-
-            ]); 
-              return json_encode(["id"=>$product->id]);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            echo $th->getMessage();
-            return json_encode(["error"=>true ,"error_message"=>"Email is already exist! You Must choose a unique email"]);
-        }
-         
-        }
-    }
-    public function update_products(Request $request){
-        $checkAdmin=$this->checkAccess();
-        if($checkAdmin){
-            Products::where("id",$request->id)->update([
-                "product_name"=>$request->pr_name,
-                "product_price"=>$request->pr_Price,
+                "product_price"=>$request->pr_price,
                 "product_description"=>$request->pr_description,
             ]);
+                
+            return json_encode(["success"=>true,'image_path'=>$path]);
             
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return json_encode(["success"=>false ,"error_message"=>$th->getMessage()]);
         }
+         
+        
     }
-    public function delete_products(Request $request){
+    public function update_products(Request $request){
+    
+            try {
+                if ($request->hasFile('image')) {
+                    $imageName = time().'.'.$request->image->extension();  
+                
+                    $path=$request->image->move(public_path('images'), $imageName);
+                    $path="/images/$imageName";
+                    Products::where("id",$request->id)->update([
+                        "product_image_path"=> $path,
+                        "product_name"=>$request->pr_name,
+                        "product_price"=>$request->pr_price,
+                        "product_description"=>$request->pr_description,
+                    ]);
+                }else{
+                    Products::where("id",$request->id)->update([
+                        "product_name"=>$request->pr_name,
+                        "product_price"=>$request->pr_price,
+                        "product_description"=>$request->pr_description,
+                    ]);
+                }
+                return json_encode(["success"=>true]);
+
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return json_encode(["success"=>false ,"error_message"=>$th->getMessage()]);
+            }
+            
+        
+    }
+    public function single_product($id){
+        $product=Products::where('id',$id)->first();
+        print_r(json_encode(["product"=>$product]));
+
+    }
+    public function delete_product(Request $request){
         // dd($request);
-        $checkAdmin=$this->checkAccess();
-        if($checkAdmin){
-            Products::where("id",$request->id)->delete();
-            print_r(json_encode(["success"=>true]));
-        }else{
-            print_r(json_encode(["success"=>false])); 
-        }
-die;
+        Products::where("id",$request->id)->delete();
+        print_r(json_encode(["success"=>true]));
+       
     }
     public function contact(){
         $checkAdmin=$this->checkAccess();

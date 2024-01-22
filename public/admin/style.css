@@ -674,7 +674,185 @@ a:focus {
     font-size: 18px;
     font-weight: normal;
 }
+.table-striped th {
+    background: #fff !important;
+}
 
+.pointer {
+    cursor: pointer;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #d1c286 !important;
+}
+
+.fa-times {
+    color: rgb(214, 0, 0);
+}
+
+.ds-none {
+    display: none;
+}
+
+.p-20 {
+    padding: 0 0 20px;
+}
+
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#myImg:hover {
+    opacity: 0.7;
+}
+
+/* The Modal (background) */
+#myModal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+    z-index: 28;
+}
+
+/* Modal Content (image) */
+#myModal .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.active {
+    display: block !important;
+}
+
+/* Add Animation */
+#myModal .modal-content,
+#myModal #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0);
+    }
+
+    to {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+#myModal .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #ffffff !important;
+    font-size: 45px;
+    z-index: 9999999;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.table-striped {
+    border-radius: 5px !important;
+}
+.square:hover .p-image {
+    visibility: hidden;
+    cursor: pointer;
+}
+.square .p-image {
+    position: absolute;
+    top: 110px;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+.square .product-pic {
+    width: 100%;
+    height: 250px;
+    max-height: unset;
+    object-fit: cover;
+    border-radius: 2px;
+    margin-bottom: 21px;
+    cursor: pointer;
+}
+.square {
+    text-align: center;
+    position: relative;
+    border-radius: 10px;
+}
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+.image_clickable {
+    cursor: pointer;
+    object-fit: cover;
+}
+#modal-view img {
+    height: 300px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+th,
+td {
+    vertical-align: middle !important;
+}
 .icon_info ul li a img {
     width: 35px;
     height: 35px;

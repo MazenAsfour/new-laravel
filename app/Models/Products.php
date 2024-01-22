@@ -15,6 +15,5 @@ class Products extends Model
         "product_image_path",
         "product_description",
         "product_created_at",
-        "catogry",
     ];
 }
