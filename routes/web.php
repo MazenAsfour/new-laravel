@@ -26,17 +26,28 @@ Route::post('/contact-message',[App\Http\Controllers\PublicController::class, 'c
 // Dashborad Routes
 Route::middleware(['dashboardAccess'])->group(function () {
     Route::get('/dashboard/products/data', [App\Http\Controllers\AdminController::class, 'getProdcuts'])->name('products.data');
+    Route::get('/dashboard-category/data', [App\Http\Controllers\AdminController::class, 'getCategories'])->name('category.data');
+
+    Route::get('/dashboard-users/data', [App\Http\Controllers\AdminController::class, 'getUsers'])->name('users.data');
 
     Route::get('/dashboard',[App\Http\Controllers\AdminController::class, 'index']);
     Route::get('/dashboard-users',[App\Http\Controllers\AdminController::class, 'users']);
+    Route::post('/dashboard-create-user',[App\Http\Controllers\AdminController::class, 'create_user']);
+
     Route::post('/dashboard-update-user',[App\Http\Controllers\AdminController::class, 'update_user']);
     Route::get('/dashboard-delete-user',[App\Http\Controllers\AdminController::class, 'delete_user']);
     Route::get('/dashboard-admin-profile',[App\Http\Controllers\AdminController::class, 'admin_profile']);
     Route::get('/dashboard-check-password',[App\Http\Controllers\AdminController::class, 'check_password']);
     Route::get('/dashboard-products',[App\Http\Controllers\AdminController::class, 'products']);
+    Route::get('/dashboard-categories',[App\Http\Controllers\AdminController::class, 'categories']);
+
     Route::post('/dashboard-add-product',[App\Http\Controllers\AdminController::class, 'add_product']);
     Route::post('/dashboard-update-product',[App\Http\Controllers\AdminController::class, 'update_product']);
     Route::post('/dashboard-delete-product',[App\Http\Controllers\AdminController::class, 'delete_product']);
+
+    Route::post('/dashboard-add-category',[App\Http\Controllers\AdminController::class, 'add_category']);
+    Route::post('/dashboard-update-category',[App\Http\Controllers\AdminController::class, 'update_category']);
+    Route::post('/dashboard-delete-category',[App\Http\Controllers\AdminController::class, 'delete_category']);
     Route::get('/dashboard-single-product/{id}',[App\Http\Controllers\AdminController::class, 'single_product']);
 
     Route::get('/dashboard-contact',[App\Http\Controllers\AdminController::class, 'contact']);

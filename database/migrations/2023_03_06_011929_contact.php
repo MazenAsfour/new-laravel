@@ -13,7 +13,6 @@ class Contact extends Migration
      */
     public function up()
     {
-        DB::beginTransaction();
         try {
             Schema::create('contact', function (Blueprint $table) {
                 $table->id();
@@ -25,10 +24,8 @@ class Contact extends Migration
                 $table->timestamps();
             });
 
-        DB::commit();
         } catch (\Throwable $th) {
             echo $th->getMessage();
-            DB::rollBack();
         }
     }
 

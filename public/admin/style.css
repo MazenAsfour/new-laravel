@@ -480,11 +480,11 @@ a:focus {
 }
 
 .orange_color {
-    color: #d1c286 !important;
+    color: #ff6426 !important;
 }
 
 .orange_bg {
-    background: #d1c286 !important;
+    background: #ff6426 !important;
 }
 
 .purple_color {
@@ -684,7 +684,7 @@ a:focus {
 
 .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #d1c286 !important;
+    border-bottom: 2px solid #ff6426 !important;
 }
 
 .fa-times {
@@ -814,7 +814,7 @@ a:focus {
 }
 .square .product-pic {
     width: 100%;
-    height: 250px;
+    height: 261px;
     max-height: unset;
     object-fit: cover;
     border-radius: 2px;
@@ -825,6 +825,7 @@ a:focus {
     text-align: center;
     position: relative;
     border-radius: 10px;
+    margin-top: 20px;
 }
 .close:hover,
 .close:focus {
@@ -895,7 +896,7 @@ td {
 .icon_info ul.user_profile_dd > li {
     width: auto;
     border-radius: 0;
-    background: #d1c286;
+    background: #ff6426;
     margin: 0;
     padding: 12px 0 12px 20px;
     height: auto;
@@ -905,7 +906,7 @@ td {
     border: none;
     padding: 14px 26px 14px;
     font-size: 21px;
-    background: #d1c286;
+    background: #ff6426;
     margin-right: 0;
     cursor: pointer;
     float: left;
@@ -918,7 +919,7 @@ td {
     position: absolute;
     right: -2px;
     top: -7px;
-    background: #d1c286;
+    background: #ff6426;
     border-radius: 100%;
     color: #fff;
     font-weight: 600;
@@ -1227,7 +1228,7 @@ a[data-toggle="collapse"] {
     font-weight: 500;
     font-size: 18px;
     color: #fff;
-    border-bottom: solid #d1c286 1px;
+    border-bottom: solid #ff6426 1px;
 }
 
 /*------------------------------------------------------------------
@@ -1407,7 +1408,7 @@ a[data-toggle="collapse"] {
     background: #fff;
     padding: 15px 25px;
     margin: 20px 0 0 0;
-    border-bottom: solid #d1c286 2px;
+    border-bottom: solid #ff6426 2px;
 }
 
 .heading2 h3 {
@@ -1932,7 +1933,7 @@ button.main_bt {
 
 .main_bt:hover,
 .main_bt:focus {
-    background: #d1c286;
+    background: #ff6426;
     color: #fff;
 }
 
@@ -2175,7 +2176,7 @@ button.main_bt {
 
 .info_people .user_info_cont p.p_status {
     font-weight: 600;
-    color: #d1c286;
+    color: #ff6426;
     margin-top: 10px;
 }
 
@@ -2299,7 +2300,7 @@ i.icon {
 -------------------------------------------------------------------*/
 
 .link.today {
-    background: #d1c286;
+    background: #ff6426;
     color: #fff;
     font-weight: 600;
 }
@@ -2336,9 +2337,9 @@ i.icon {
 /** tabbar style 2 **/
 
 .tab_style2 .tabbar nav div.nav-tabs .nav-link.active {
-    background: #d1c286;
+    background: #ff6426;
     color: #fff;
-    border-color: #d1c286;
+    border-color: #ff6426;
 }
 
 /** tabbar style 3 **/
@@ -2360,9 +2361,9 @@ i.icon {
 }
 
 .tab_style3 div.tabbar div.nav-pills .nav-link.active {
-    background: #d1c286;
+    background: #ff6426;
     color: #fff;
-    border-color: #d1c286;
+    border-color: #ff6426;
 }
 
 /** button section **/
@@ -2715,7 +2716,7 @@ a.mail-dropdown {
 }
 
 .btn-compose:hover {
-    background: #d1c286;
+    background: #ff6426;
     color: #fff;
 }
 
@@ -2869,7 +2870,7 @@ ul.labels-info li a i {
 }
 
 .inbox-head .sr-btn {
-    background: #d1c286;
+    background: #ff6426;
     border: medium none;
     border-radius: 0;
     color: #fff;
@@ -3516,7 +3517,7 @@ table.projects tr td:first-child {
     margin: 11px 0;
     position: relative;
     left: 0;
-    color: #d1c286;
+    color: #ff6426;
 }
 
 /*------------------------------------------------------------------

@@ -24,14 +24,14 @@ label {
 .btn-primary,
 .main_bt,
 .plus_green_bt a {
-    background-color: #d1c286 !important;
-    border-color: #d1c286 !important;
+    background-color: #ff6426 !important;
+    border-color: #ff6426 !important;
     color: #fff;
     display: block;
     padding: 8px 12px !important;
 }
 #sidebar.active .logo_section {
-    background-color: #d1c286 !important;
+    background-color: #ff6426 !important;
 }
 .mt-20 {
     margin-top: 20px !important;
@@ -41,8 +41,8 @@ label {
 .btn-primary:focus,
 .btn-primary:active,
 .main_bt {
-    background-color: #aa9e6d !important;
-    border-color: #aa9e6d !important;
+    background-color: #dc5119 !important;
+    border-color: #dc5119 !important;
     color: #fff;
     box-shadow: 0 0 0 0.2rem rgba(255, 254, 202, 0.25) !important;
 }
@@ -104,8 +104,8 @@ input[type="tel"]:focus,
 input[type="color"]:focus,
 .faux-file:focus {
     outline: none;
-    border: 1px solid #aa9e6d;
-    box-shadow: inset 0 0 0 1px #aa9e6d;
+    border: 1px solid #dc5119;
+    box-shadow: inset 0 0 0 1px #dc5119;
 }
 .bg-green {
     background-color: #00796a !important;

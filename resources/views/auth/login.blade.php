@@ -51,7 +51,7 @@
         }
 
         .border-left-green {
-            border-left: 16px solid #aa9e6d !important;
+            border-left: 16px solid #dc5119 !important;
             background-color: #f9f9f9;
             min-height: 760px;
             position: relative;

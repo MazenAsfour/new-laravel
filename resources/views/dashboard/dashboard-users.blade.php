@@ -8,12 +8,6 @@
     </style>
 @endpush
 @section('content')
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" defer="defer"></script>
-    <script src="assets/resource/tiny_mce.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
-    <!-- right content -->
     <div id="content">
 
         <!-- dashboard inner -->
@@ -23,93 +17,112 @@
                     <div class="col-md-12">
                         <div class="page_title" style="">
                             <h2 style="display: inline;">Users</h2>
-                            <span style="display: inline-block;float:right">
-                                {{-- <input class="form-control" id="myInput" type="text"
-                                placeholder="Search.."> --}}
-                            </span>
-
+                            <button class="btn btn-primary" onclick="lanuchModalInsert()" style="margin-left:20px">Add New
+                                User</button>
                         </div>
                     </div>
                 </div>
                 <div class="container">
 
                     <div class="well">
-                        <table class="table" id="myTable">
+                        <table class="table" id="userDataTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>User Profile</th>
                                     <th>User Name</th>
-                                    <th>Email</th>
-                                    <th>Account Activate</th>
+                                    <th>User Email</th>
                                     <th>Created At</th>
-                                    <th style="width: 15px;"></th>
-                                    <th style="width: 15px;"></th>
-                                    <th style="width: 15px;"></th>
-                                    <th style="width: 15px;"></th>
-
+                                    <th style="width: 100px"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
-                                    <tr id="{{ $user->id }}">
-                                        <td>{{ $user->id }}</td>
-                                        <td><img id="{{ $user->id }}img" src="{{ $user->image }}"
-                                                style="width:30px;height:30px;border-radius:100%;object-fit: cover;"class="img-responsive"
-                                                alt="#" /></td>
-                                        <td id="{{ $user->id }}name">{{ $user->name }}</td>
-                                        <td id="{{ $user->id }}email">{{ $user->email }}</td>
-                                        @if ($user->email_verified_at == '')
-                                            <td>Not activiate yet</td>
-                                        @else
-                                            <td>{{ $user->email_verified_at }}</td>
-                                        @endif
-                                        <td>{{ $user->created_at }}</td>
-                                        <td><i class="fa fa-user-plus pointer ds-none"
-                                                onclick="lanuchModalVerfication('{{ $user->email }}')"
-                                                aria-hidden="true"></i></td>
-                                        @if ($user->email_verified_at == '')
-                                            <td><i class="fa fa-envelope-o pointer"
-                                                    onclick="LanuchSendResetPasswordModal('{{ $user->email }}')"
-                                                    aria-hidden="true"></i></td>
-                                        @else
-                                            <td><i class="fa fa-check green pointer" aria-hidden="true"></i></td>
-                                        @endif
-                                        <td><i class="fa fa-pencil pointer"
-                                                onclick="lanuchModalUpdate({{ $user->id }})" aria-hidden="true"></i>
-                                        </td>
-                                        <td><i class="fa fa-times pointer" onclick="lanuchModalDelete({{ $user->id }})"
-                                                aria-hidden="true"></i></td>
-                                    </tr>
-                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="modal-create" tabindex="-1" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog d-flex justify-content-center">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Create User</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form id="form" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="small-12 medium-2 large-2 columns">
+                                    <div class="circle">
+                                        <img class="profile-pic"
+                                            src="/images/computer-icons-user-profile-google-account-photos-icon-account.jpg">
+                                        <div class="p-image">
+                                            <i class="fa fa-camera upload-button"></i>
+                                            <input class="file-upload" name="image" type="file" accept="image/*" />
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" id="">Username</label>
+                                <input type="text" name="name" required class="form-control" />
+                            </div>
 
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="">Email</label>
+                                <input type="email" name="email" required value='' class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="">Card Number (optional)</label>
+                                <input type="number" name="visa" class="visa-number form-control" required>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="">Password</label>
+                                <input type="password" name="password" class="password form-control" required>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="">Confirm Password</label>
+                                <input type="password" name="confirm-password" class="confirm-password form-control"
+                                    required>
+                            </div>
+
+                            <div class="spinner-border spinner-border-sm d-none" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="alert alert-danager ds-none" style="padding:8px 12px;font-size:14px" role="alert">
+
+                            </div>
+                            <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px" role="alert">
+                                Created User Profile Seccuessfully
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Create</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
-
-        <!-- Modal -->
-        <div class="modal fade modal-update" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
+        <div class="modal fade modal-update" id="" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
+                <div class="modal-content ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel1">User Inforamtion</h5>
                         <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-4">
-                        <form id="form" method="POST" action="/upload-image" enctype="multipart/form-data">
-                            <!-- Email input -->
+                        <form id="form" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="small-12 medium-2 large-2 columns">
                                     <div class="circle">
-                                        <img class="profile-pic" src="{{ $admin[0]->image }}">
+                                        <img class="profile-pic" src="">
                                         <div class="p-image">
                                             <i class="fa fa-camera upload-button"></i>
                                             <input class="file-upload" name="image" type="file" accept="image/*" />
@@ -124,18 +137,19 @@
                                     class="form-control" />
                             </div>
 
-                            <!-- password input -->
                             <div class="form-outline mb-4">
                                 <label class="form-label" name="email" for="password1">Email</label>
                                 <input type="email" name="email" id="Email"required value=''
                                     class="form-control" />
                             </div>
                             <input type="hidden" id="idSelected" name="id" value='' name="">
-
-                            <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px" role="alert">
+                            <div class="spinner-border spinner-border-sm d-none" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px"
+                                role="alert">
                                 Updated User Profile Seccuessfully
                             </div>
-                            <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-block">Update</button>
                         </form>
                     </div>
@@ -143,10 +157,10 @@
             </div>
         </div>
 
-        <div class="modal fade modal-delete" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
+        <div class="modal fade modal-delete" id="" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
+                <div class="modal-content ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel1">Account Want To Delete it</h5>
                         <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
@@ -167,79 +181,101 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade modal-verification" id="staticBackdrop1" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Verification Code</h5>
-                        <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <form id="verfication-code" action="/dashboard-verfication-code" method="POST">
 
-                        <div class="modal-body p-4">
-                            <div>
-                                We Appreciate Your Permission! but we need Email Verification code to Make This User As
-                                Admin
-                                becuase we have sensitive data. Thanks!
-                            </div>
-                            @csrf
-                            <input type="hidden" name="email" id="EmailVerficationCode">
-                            <div class="d-flex mb-3">
-                                <input type="tel" name="one" maxlength="1" pattern="[0-9]" required
-                                    class="form-control">
-                                <input type="tel" name="two" maxlength="1" pattern="[0-9]" required
-                                    class="form-control">
-                                <input type="tel" name="three" maxlength="1" pattern="[0-9]" required
-                                    class="form-control">
-                                <input type="tel" name="four" maxlength="1" pattern="[0-9]" required
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="alert alert-success ds-none"
-                            style="padding:8px 12px;font-size:14px;margin:0 10px 10px " role="alert">
-                            Deleted User Seccuessfully
-                        </div>
-                        <div class="modal-footer text-right">
-                            <button class="btn btn-light" onclick="hideModal()">Cancel</button>
-                            <button class="btn btn-primary" type="submit">Verify And Set User as Admin</button>
 
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-        <div class="modal fade modal-reset-password" id="staticBackdrop1" tabindex="-1"
-            aria-labelledby="exampleModalLabel1" aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Send Reset Password</h5>
-                        <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
-                        Do You Want To Send Reset Password Email To <span id="EmailSelected"></span> ?
-                    </div>
-                    <div class="alert alert-success alert-success-send-reset-email ds-none"
-                        style="padding:8px 12px;font-size:14px;margin:0 10px 10px " role="alert">
-                        Email Sent Successfully
-                    </div>
-                    <div class="modal-footer text-right">
-                        <button class="btn btn-light" onclick="hideModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="SendResetPassword()">Confirm And Send</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <script>
+            jQuery(document).ready(function($) {
+                prepare()
+
+            });
+
+            function prepare() {
+                $(document).ready(function() {
+                    $('#userDataTable').DataTable({
+                        serverSide: true,
+                        ajax: "{{ route('users.data') }}",
+                        columns: [{
+                                data: 'id',
+                                name: 'id',
+                                render: function(data, type, row) {
+                                    return '#' + row.id;
+                                }
+                            },
+                            {
+                                data: 'image_path',
+                                name: 'image_path',
+                                render: function(data, type, row) {
+                                    return '<img id="' + row.id + 'img" src="' + row.image_path +
+                                        '" style="width:30px;height:30px;border-radius:100%;object-fit: cover;" class="img-responsive" alt="#" />';
+                                }
+                            },
+                            {
+                                data: 'name',
+                                name: 'name',
+                                render: function(data, type, row) {
+                                    return '<p id="name_' + row.id + '">' + row.name + '</p>';
+                                }
+                            },
+                            {
+                                data: 'email',
+                                name: 'email',
+                                render: function(data, type, row) {
+                                    return '<p id="email_' + row.id + '">' + row.email +
+                                        '</p>';
+                                }
+                            },
+
+                            {
+                                data: 'created_at',
+                                name: 'created_at',
+                                render: function(data, type, row) {
+                                    return '<p id="create_at_' + row.created_at + '">' +
+                                        formatReadableDate(row.created_at) +
+                                        '</p>';
+                                }
+                            },
+                            {
+                                data: null,
+                                orderable: false,
+                                searchable: false,
+                                render: function(data, type, row) {
+                                    return ' <td><i class="fa fa-pencil pointer" onclick="lanuchModalUpdate(' +
+                                        row.id +
+                                        ')" aria-hidden="true"></i> <i class=" pl-3 fa fa-times pointer" onclick="lanuchModalDelete(' +
+                                        row.id + ')" aria-hidden="true"></i></td>';
+                                }
+                            }
+                        ],
+                    });
+                });
+            }
+
+            function formatReadableDate(dateString) {
+                var date = new Date(dateString);
+
+                var optionsDate = {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                };
+                var optionsTime = {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZoneName: 'short'
+                };
+
+                var formattedDate = date.toLocaleDateString('en-US', optionsDate);
+                var formattedTime = date.toLocaleTimeString('en-US', optionsTime);
+
+                return formattedDate + ' ' + formattedTime;
+            }
+
             function lanuchModalUpdate(id) {
                 $('.modal-update').modal("show");
-                $("#Username").val($("#" + id + "name").text())
-                $("#Email").val($("#" + id + "email").text())
+                $("#Username").val($("#name_" + id).text())
+                $("#Email").val($("#email_" + id).text())
                 $(".profile-pic").attr("src", $("#" + id + "img").attr('src'))
                 $("#idSelected").val(id)
 
@@ -267,21 +303,8 @@
                 })
             }
 
-            function SendResetPassword() {
-                $.ajax({
-                    method: "post",
-                    url: "/dasboard-sendResetPasswordEmail",
-                    data: {
-                        'email': $("#EmailSelected").text(),
-                        '_token': $('#token').attr('content')
-                    }
-                }).done(function(data) {
-                    $(".alert-success-send-reset-email").show();
-                    setTimeout(() => {
-                        hideModal();
-                    }, 3000);
-
-                });
+            function lanuchModalInsert() {
+                $('#modal-create').modal("show");
             }
 
             function deleteUser() {
@@ -309,75 +332,86 @@
                 $("#myTable_filter input").attr("placeholder", "Search..");
 
 
-
-                $('#form').submit(function(e) {
+                $('#form-update').submit(function(e) {
                     e.preventDefault();
+                    $("#form-update .spinner-border").removeClass("d-none")
                     var formData = new FormData(this);
+
                     $.ajax({
                         type: 'POST',
-                        url: "/upload-image",
+                        url: "/dashboard-update-user",
                         data: formData,
                         cache: false,
                         contentType: false,
                         processData: false,
                         success: (data) => {
-                            //this.reset();
-                            updateUser();
+                            res = JSON.parse(data)
+                            $("#form-update .spinner-border").addClass("d-none")
+                            if (res.success) {
+                                $(".alert-success-update").show();
+                                destory();
+                                prepare();
+                            } else {
+                                alert(res.error)
+                            }
+                            setTimeout(() => {
+                                $(".modal-update").modal("hide")
+                                $(".alert-success-update").hide();
+                            }, 3000);
                         },
                         error: function(data) {
-                            //console.log(data);
+                            console.log(data)
                         }
                     });
 
 
-                    $("#verfication-code").submit(function(e) {
 
-                        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-                        var form = $(this);
-                        var actionUrl = form.attr('action');
-
-                        $.ajax({
-                            type: "POST",
-                            url: actionUrl,
-                            data: form.serialize(), // serializes the form's elements.
-                            success: function(data) {
-                                console.log(data)
-                                //$(".alert-success-insert").show();
-                                setTimeout(() => {
-                                    ///location.reload();
-                                }, 3000);
-                            }
-                        });
-
-                    });
                 });
+                $('#form-create').submit(function(e) {
+                    e.preventDefault();
+                    if (jQuery("#form-create .password").val() !== jQuery("#form-create .confirm-password")
+                        .val()) {
+                        jQuery("#modal-create .alert-danager").removeClass("ds-none");
+                        jQuery("#modal-create .alert-danager").text("Passwords not match!");
+                    } else {
+                        jQuery("#modal-create .alert-danager").addClass("ds-none");
+                    }
+                    ("#modal-create .spinner-border").addClass("d-none")
+                        .removeClass("d-none")
+                    var formData = new FormData(this);
 
-                function updateUser() {
                     $.ajax({
                         type: 'POST',
-                        url: "/dashboard-update-user",
-                        data: {
-                            'name': $("#Username").val(),
-                            'email': $("#Email").val(),
-                            'id': $("#idSelected").val(),
-                            '_token': $('#token').attr('content')
-                        },
+                        url: "/dashboard-create-user",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
                         success: (data) => {
-                            console.log(data);
-                            $(".alert-success").show();
+                            res = JSON.parse(data)
+                                ("#modal-create .spinner-border").addClass("d-none")
+                            if (res.success) {
+                                $("#modal-create .alert-success").show();
+                                destory();
+                                prepare();
+                            } else {
+                                alert(res.error)
+                            }
                             setTimeout(() => {
-                                location.reload();
+                                $(".modal-update").modal("hide")
+                                $("#modal-create .alert-success").hide();
                             }, 3000);
                         },
-
+                        error: function(data) {
+                            console.log(data)
+                        }
                     });
-                }
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('#token').attr('content')
-                    }
+
+
+
                 });
+
+
 
                 var readURL = function(input) {
                     if (input.files && input.files[0]) {
@@ -401,79 +435,10 @@
                 });
 
             })
-            const form = document.querySelector(' .modal-verification form')
-            const inputs = form.querySelectorAll(' .modal-verification  input')
-            const KEYBOARDS = {
-                backspace: 8,
-                arrowLeft: 37,
-                arrowRight: 39,
+
+            function destory() {
+                jQuery('#productDataTable').DataTable().destroy();
+
             }
-
-            function handleInput(e) {
-                const input = e.target
-                const nextInput = input.nextElementSibling
-                if (nextInput && input.value) {
-                    nextInput.focus()
-                    if (nextInput.value) {
-                        nextInput.select()
-                    }
-                }
-            }
-
-            function handlePaste(e) {
-                e.preventDefault()
-                const paste = e.clipboardData.getData('text')
-                inputs.forEach((input, i) => {
-                    input.value = paste[i] || ''
-                })
-            }
-
-            function handleBackspace(e) {
-                const input = e.target
-                if (input.value) {
-                    input.value = ''
-                    return
-                }
-
-                input.previousElementSibling.focus()
-            }
-
-            function handleArrowLeft(e) {
-                const previousInput = e.target.previousElementSibling
-                if (!previousInput) return
-                previousInput.focus()
-            }
-
-            function handleArrowRight(e) {
-                const nextInput = e.target.nextElementSibling
-                if (!nextInput) return
-                nextInput.focus()
-            }
-
-            form.addEventListener('input', handleInput)
-            inputs[0].addEventListener('paste', handlePaste)
-
-            inputs.forEach(input => {
-                input.addEventListener('focus', e => {
-                    setTimeout(() => {
-                        e.target.select()
-                    }, 0)
-                })
-
-                input.addEventListener('keydown', e => {
-                    switch (e.keyCode) {
-                        case KEYBOARDS.backspace:
-                            handleBackspace(e)
-                            break
-                        case KEYBOARDS.arrowLeft:
-                            handleArrowLeft(e)
-                            break
-                        case KEYBOARDS.arrowRight:
-                            handleArrowRight(e)
-                            break
-                        default:
-                    }
-                })
-            })
         </script>
     @endsection

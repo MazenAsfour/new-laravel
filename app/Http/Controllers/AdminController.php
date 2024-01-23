@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Mail\Message;
-use App\Models\Products;
+use App\Models\Product;
+use App\Models\Category;
+
 use App\Models\Contact;
 use App\Models\Admin;
 use App\Models\User;
@@ -44,41 +46,18 @@ class AdminController extends Controller
             return false;
         }
     }
-    public function getUsersLimit(){
-        $users=DB::select( DB::raw("SELECT users.id as id,users.name as name, users.email as email,users.created_at as created_at, personal_data_of_users.image_path as image,personal_data_of_users.about_user as about_user ,personal_data_of_users.last_login as last_login  FROM users INNER JOIN personal_data_of_users ON users.id=personal_data_of_users.user_id where users.email_verified_at IS NOT NULL order by users.id  DESC LIMIT 4") );
-        return $users;
-    }
-    public function getUsers(){
-        $users=DB::select( DB::raw("SELECT users.id as id,users.name as name, users.email_verified_at as email_verified_at, users.email as email,users.created_at as created_at, personal_data_of_users.image_path as image,personal_data_of_users.about_user as about_user ,personal_data_of_users.last_login as last_login  FROM users INNER JOIN personal_data_of_users ON users.id=personal_data_of_users.user_id ") );
-        return $users;
-    }
-    public function userSession(){
-        $userId=Auth::user()->id;
-        $user = DB::select( DB::raw("SELECT users.id as id,users.name as name, users.email as email, users.password as password, users.created_at as created_at, personal_data_of_users.image_path as image,personal_data_of_users.about_user as about_user ,personal_data_of_users.last_login as last_login  FROM users INNER JOIN personal_data_of_users ON users.id=personal_data_of_users.user_id where users.id=".$userId."") );
-        return $user;
-    }
    
     public function index(){
-        $checkAdmin=$this->checkAccess();
-        $users=$this->getUsersLimit();
-        $user=$this->userSession();
-        if($checkAdmin){
-            return view("dashboard/dashboard")->with("admin",true)->with("admin",$user)->with("users",$users);
-        }else{
-           abort("404");
-
-        }
+        
+        return view("dashboard/dashboard");
+        
     }
    
     public function users(){
-        $checkAdmin=$this->checkAccess();
-        $users=$this->getUsers();
-        $user=$this->userSession();
-        if($checkAdmin){
-            return view("dashboard/dashboard-users")->with("admin",true)->with("admin",$user)->with("users",$users);;
-        }else{
-            abort("404");
-        }
+     
+        $adminData = UserData::where('user_id', Auth::user()->id)->first();
+        return view("dashboard/dashboard-users")->with(compact("adminData"));;
+    
     }
     public function dashboard_admins(){
         $checkAdmin=$this->checkAccess();
@@ -188,48 +167,81 @@ class AdminController extends Controller
     public function getProdcuts()
     {
 
-        $data = Products::query();
+        $data = Product::with("category")->orderBy("created_at", "desc")->get();
 
         return DataTables::of($data)
             ->make(true);
     }
-    public function products(){
-        $checkAdmin=$this->checkAccess();
-        $products=Products::orderBy('id', 'DESC')->get();
+    public function getUsers()
+    {
+        $data = User::leftJoin('personal_data_of_users', 'users.id', '=', 'personal_data_of_users.user_id')
+        ->select('users.*', 'personal_data_of_users.image_path')
+        ->get();
+      
+        return DataTables::of($data)
+            ->make(true);
+    }
+    public function getCategories()
+    {
+        $data = Category::query();
 
-        $user=$this->userSession();
-        if($checkAdmin){
-            return view("dashboard/dashboard-products")->with("Isadmin",true)->with("admin",$user)->with("products",$products);
-        }else{
-            abort("404");
+        return DataTables::of($data)
+            ->make(true);
+    }
+    public function categories(){
 
-        }
+        return view("dashboard/dashboard-categories");;
+
+    }
+    public function Products(){
+        $categories = Category::get(["id","name"]);
+        return view("dashboard/dashboard-Products")->with("category",$categories);
+        
     }
 
-    public function add_products(Request $request){
+    public function add_product(Request $request){
      
             try {
             $imageName = time().'.'.$request->image->extension();  
             
             $path=$request->image->move(public_path('images'), $imageName);
             $path="/images/$imageName";
-            Products::where("id",$request->id)->create([
-                "product_image_path"=> $path,
-                "product_name"=>$request->pr_name,
-                "product_price"=>$request->pr_price,
-                "product_description"=>$request->pr_description,
+            Product::where("id",$request->id)->create([
+                "image_path"=> $path,
+                "name"=>$request->pr_name,
+                "price"=>$request->pr_price,
+                "category_id"=>$request->category_id,
+                "description"=>$request->pr_description,
             ]);
                 
             return json_encode(["success"=>true,'image_path'=>$path]);
             
         } catch (\Throwable $th) {
             DB::rollBack();
-            return json_encode(["success"=>false ,"error_message"=>$th->getMessage()]);
+            return json_encode(["success"=>false ,"error"=>$th->getMessage()]);
         }
          
         
     }
-    public function update_products(Request $request){
+    public function add_category(Request $request){
+     
+        try {
+     
+        Category::create([
+            "name"=>$request->name,
+            "description"=>$request->description,
+        ]);
+            
+        return json_encode(["success"=>true]);
+        
+    } catch (\Throwable $th) {
+        DB::rollBack();
+        return json_encode(["success"=>false ,"error"=>$th->getMessage()]);
+    }
+    
+}
+
+    public function update_product(Request $request){
     
             try {
                 if ($request->hasFile('image')) {
@@ -237,36 +249,86 @@ class AdminController extends Controller
                 
                     $path=$request->image->move(public_path('images'), $imageName);
                     $path="/images/$imageName";
-                    Products::where("id",$request->id)->update([
-                        "product_image_path"=> $path,
-                        "product_name"=>$request->pr_name,
-                        "product_price"=>$request->pr_price,
-                        "product_description"=>$request->pr_description,
+                    Product::where("id",$request->id)->update([
+                        "image_path"=> $path,
+                        "name"=>$request->pr_name,
+                        "price"=>$request->pr_price,
+                        "description"=>$request->pr_description,
                     ]);
                 }else{
-                    Products::where("id",$request->id)->update([
-                        "product_name"=>$request->pr_name,
-                        "product_price"=>$request->pr_price,
-                        "product_description"=>$request->pr_description,
+                    Product::where("id",$request->id)->update([
+                        "name"=>$request->pr_name,
+                        "price"=>$request->pr_price,
+                        "description"=>$request->pr_description,
                     ]);
                 }
                 return json_encode(["success"=>true]);
 
             } catch (\Throwable $th) {
                 DB::rollBack();
-                return json_encode(["success"=>false ,"error_message"=>$th->getMessage()]);
+                return json_encode(["success"=>false ,"error"=>$th->getMessage()]);
             }
             
         
     }
+    public function create_user(Request $request){
+        try {
+            
+            $imageName = time().'.'.$request->image->extension();  
+        
+            $path=$request->image->move(public_path('images'), $imageName);
+            $path="/images/$imageName";
+                
+            $user= User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            UserData::create([
+                'user_id'=>$user->id,
+                'image_path' => '/images/computer-icons-user-profile-google-account-photos-icon-account.jpg',
+                'about_user' => 'Hello I Am Using E-Commerce App!',
+            ]);
+
+            return json_encode(["success"=>true]);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return json_encode(["success"=>false ,"error"=>$th->getMessage()]);
+        }
+    }
+    public function update_category(Request $request){
+    
+        try {
+
+            Category::where("id",$request->id)->update([
+                "name"=>$request->name,
+                "description"=>$request->description,
+            ]);
+            
+            return json_encode(["success"=>true]);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return json_encode(["success"=>false ,"error"=>$th->getMessage()]);
+        }
+        
+    
+}
     public function single_product($id){
-        $product=Products::where('id',$id)->first();
-        print_r(json_encode(["product"=>$product]));
+        $Product=Product::where('id',$id)->first();
+        print_r(json_encode(["product"=>$Product]));
 
     }
     public function delete_product(Request $request){
         // dd($request);
-        Products::where("id",$request->id)->delete();
+        Product::where("id",$request->id)->delete();
+        print_r(json_encode(["success"=>true]));
+       
+    }
+    public function delete_category(Request $request){
+        // dd($request);
+        Category::where("id",$request->id)->delete();
         print_r(json_encode(["success"=>true]));
        
     }
@@ -296,8 +358,7 @@ class AdminController extends Controller
                     'user_id'=>$user->id,
                     'image_path' => 'https://cambodiaict.net/wp-content/uploads/2019/12/computer-icons-user-profile-google-account-photos-icon-account.jpg',
                     'about_user' => 'Hello I Am Using E-Commerce App!',
-                    'use_cookie'=> 0,
-                    'save_login' => 0,
+               
                 ]);
                 Admin::create([
                     "id"=>$request->id,
@@ -313,7 +374,7 @@ class AdminController extends Controller
             } catch (\Throwable $th) {
                 DB::rollBack();
                 echo $th->getMessage();
-                return json_encode(["error"=>true ,"error_message"=>"Email is already exist! You Must choose a unique email"]);
+                return json_encode(["error"=>true ,"error"=>"Email is already exist! You Must choose a unique email"]);
             }
         }else{
             abort("404");

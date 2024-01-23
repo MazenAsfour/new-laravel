@@ -26,7 +26,8 @@
                     <div class="col-md-12">
                         <div class="page_title">
                             <h2 style="display: inline-block">Admins</h2>
-                            <button class="btn btn-primary" onclick="lanuchModalInsertAdmin()" style="margin-left:20px">Add New Admin</button>
+                            <button class="btn btn-primary" onclick="lanuchModalInsertAdmin()" style="margin-left:20px">Add New
+                                Admin</button>
                         </div>
                     </div>
                 </div>
@@ -43,7 +44,6 @@
                                     <th>Admin Role</th>
                                     <th>Created At</th>
                                     <th style="width: 15px;"></th>
-                                    <th style="width: 15px;"></th>
 
                                 </tr>
                             </thead>
@@ -58,8 +58,7 @@
                                         <td id="{{ $user->id }}email">{{ $user->email }}</td>
                                         <td>Administrator</td>
                                         <td>{{ $user->created_at }}</td>
-                                        <td><i class="fa fa-wrench pointer" onclick="lanuchModalUpdate({{ $user->id }})"
-                                                aria-hidden="true"></i></td>
+
                                         {{-- <td><i class="fa fa-pencil pointer"
                                                 onclick="lanuchModalUpdateAdmin({{ $user->id }})"></i></td> --}}
                                         <td><i class="fa fa-times pointer" onclick="lanuchModalDelete({{ $user->id }})"
@@ -80,7 +79,7 @@
         <div class="modal fade modal-update" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
+                <div class="modal-content ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel1">Admin Inforamtion</h5>
                         <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
@@ -118,7 +117,7 @@
         <div class="modal fade modal-add-admin" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel1">Add New Admin</h5>
                         <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
@@ -133,8 +132,7 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label" id=""> Email</label>
-                                <input type="email" name="email" placeholder="Email" required
-                                    class="form-control" />
+                                <input type="email" name="email" placeholder="Email" required class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label"> Password</label>
@@ -153,7 +151,7 @@
                             </div>
                             <div class="alert alert-success-insert alert-success ds-none"
                                 style="padding:8px 12px;font-size:14px" role="alert">
-                                Add New Admin Successfully
+                                Added New Admin Successfully
                             </div>
                             <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-block">Add New Admin
@@ -166,7 +164,7 @@
         <div class="modal fade modal-update-admin" id="staticBackdrop1" tabindex="-1"
             aria-labelledby="exampleModalLabel1" aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
+                <div class="modal-content ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel1">Modifiy Admin Role</h5>
                         <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
@@ -197,7 +195,7 @@
         <div class="modal fade modal-delete" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
+                <div class="modal-content ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel1">Account Want To Delete it</h5>
                         <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
@@ -220,10 +218,10 @@
         </div>
 
         <script>
-            function lanuchModalUpdate(id) {
-                $('.modal-update-admin').modal("show");
-                $("#idAdmin").val(id)
-            }
+            // function lanuchModalUpdate(id) {
+            //     $('.modal-update-admin').modal("show");
+            //     $("#idAdmin").val(id)
+            // }
 
             function lanuchModalUpdateAdmin(id) {
                 $('.modal-update').modal("show");
@@ -286,7 +284,7 @@
                     url: "/dashboard-delete-user",
                     data: {
                         'id': id,
-                        'admin':true
+                        'admin': true
                     }
                 }).done(function(data) {
                     $(".alert-success").show();
@@ -349,6 +347,7 @@
 
                 });
             })
+
             function hideModal() {
                 $(".modal").each(function() {
                     $(this).modal("hide")

@@ -4,7 +4,32 @@
 @endsection
 @push('custom-style')
     <style>
+        textarea {
+            min-height: 200px !important
+        }
 
+        tr td:last-child {
+            width: 100px !important;
+        }
+
+        tr td:nth-child(2) {
+            width: 100px !important;
+        }
+
+        tr td:nth-child(1) {
+            width: 50px !important;
+        }
+
+
+        @media only screen and (min-width:900px) {
+
+            .modal-update .modal-dialog,
+            .modal-insert .modal-dialog {
+                max-width: 880px;
+
+            }
+
+        }
     </style>
 @endpush
 @section('content')
@@ -32,6 +57,7 @@
                             <th>ID</th>
                             <th>Image</th>
                             <th>Name</th>
+                            <th>Category</th>
                             <th>Price</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -56,10 +82,9 @@
                     </div>
                     <div class="modal-body p-4">
                         <form id="form" method="POST" action="/upload-image" enctype="multipart/form-data">
-                            <!-- Email input -->
                             @csrf
                             <div class="row">
-                                <div class="small-12 medium-2 large-2 columns">
+                                <div class="col-md-6">
                                     <div class="square">
                                         <img class="product-pic"
                                             src="https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png">
@@ -69,21 +94,36 @@
                                                 type="file" accept="image/*" />
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-outline mb-4">
                                         <label class="form-label" id="">Product Name</label>
-                                        <input type="text" id="pr_name" name="pr_name" required class="form-control" />
+                                        <input type="text" id="pr_name" placeholder="Product name" name="pr_name"
+                                            required class="form-control" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" id="">Product Price</label>
-                                        <input type="number" id="pr_price" name="pr_price" required
-                                            class="form-control" />
+                                        <label class="form-label" id=""> Category Name</label>
+                                        <select class="form-select mb-4" name="category_id" aria-label="Default select "
+                                            required>
+                                            <option selected value="">Select Category</option>
+                                            @foreach ($category as $c)
+                                                <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" id="">Product Price (JD)</label>
+                                        <input type="number" step="0.01"placeholder="10Jd" id="pr_price"
+                                            name="pr_price" required class="form-control" />
                                     </div>
                                     <input type="hidden" name="type" value="">
                                     <input type="hidden" name="id" id="_id">
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" id="">Product Description</label>
-                                        <textarea name="pr_description" id="pr_description"class="form-control" required cols="4" rows="4"></textarea>
+                                        <textarea name="pr_description"placeholder="Product description" id="pr_description"class="form-control" required
+                                            cols="4" rows="4"></textarea>
                                     </div>
                                     <div class="alert alert-success-insert alert-success ds-none"
                                         style="padding:8px 12px;font-size:14px" role="alert">
@@ -107,7 +147,7 @@
             <div class="modal-dialog d-flex justify-content-center">
                 <div class="modal-content w-100">
                     <div class="modal-header">
-                        <h5 class="modal-title" id=""> Update </h5>
+                        <h5 class="modal-title" id=""> Update <span id="update-name"></span> </h5>
                         <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
                             aria-label="Close"></button>
                     </div>
@@ -115,7 +155,7 @@
                         <form id="form-update" action="/upload-image" method="POST">
                             @csrf
                             <div class="row">
-                                <div class="small-12 medium-2 large-2 columns">
+                                <div class="col-md-6">
                                     <div class="square update">
                                         <img class="product-pic"
                                             src="https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png">
@@ -123,24 +163,37 @@
                                             <i class="fa fa-upload upload-button"></i>
                                             <input id="prodcut-upload-update" class="file-upload" name="image"
                                                 type="file" accept="image/*" />
-                                        </div>
-                                    </div>
 
+                                        </div>
+                                        <p class="text-left">Click on image to change it.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-outline mb-4">
                                         <label class="form-label" id=""> Name</label>
-                                        <input type="text" id="update_pr_name" name="pr_name" required
-                                            class="form-control" />
+                                        <input type="text" id="update_pr_name" placeholder="Product Name"
+                                            name="pr_name" required class="form-control" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" id=""> Price</label>
-                                        <input type="number" id="update_pr_price" name="pr_price" required
-                                            class="form-control" />
+                                        <label class="form-label" id=""> Category Name</label>
+                                        <select class="form-select mb-4" required name="category_id">
+                                            <option selected value="">Select Category</option>
+                                            @foreach ($category as $c)
+                                                <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" id="">Product Price (JD)</label>
+                                        <input type="number" step="0.01"placeholder="10Jd" id="update_pr_price"
+                                            name="pr_price" required class="form-control" />
                                     </div>
                                     <input type="hidden" name="id" id="_id_update">
                                     <div class="form-outline mb-4">
                                         <label class="form-label" id="">Product Description</label>
-                                        <textarea name="pr_description" id="pr_description_update"class="form-control" required cols="4"
-                                            rows="4"></textarea>
+                                        <textarea name="pr_description"placeholder="Product description" id="pr_description_update"class="form-control"
+                                            required cols="4" rows="4"></textarea>
                                     </div>
                                     <div class="alert alert-success-update alert-success ds-none"
                                         style="padding:8px 12px;font-size:14px" role="alert">
@@ -151,8 +204,11 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block">Update
                                     </button>
-
                                 </div>
+
+
+
+
                             </div>
                         </form>
                     </div>
@@ -225,37 +281,45 @@
                             }
                         },
                         {
-                            data: 'product_image_path',
-                            name: 'product_image_path',
+                            data: 'image_path',
+                            name: 'image_path',
                             render: function(data, type, row) {
                                 return '<img onclick="lanuchModalImage(' + row.id +
                                     ')" class="image_clickable" id="image_' + row.id +
-                                    '" style="width:70px;height:70px;" src="' + row.product_image_path +
+                                    '" style="width:70px;height:70px;" src="' + row.image_path +
                                     '">';
                             }
                         },
                         {
-                            data: 'product_name',
-                            name: 'product_name',
+                            data: 'name',
+                            name: 'name',
                             render: function(data, type, row) {
-                                return '<p id="product_name_' +
-                                    row.id + '">' + row.product_name + '</p>';
+                                return '<p id="name_' +
+                                    row.id + '">' + row.name + '</p>';
                             }
                         },
                         {
-                            data: 'product_price',
-                            name: 'product_price',
+                            data: 'category',
+                            name: 'category',
                             render: function(data, type, row) {
-                                return '<p id="product_price_' +
-                                    row.id + '">' + row.product_price + '</p>';
+                                return '<p id="category_' +
+                                    row.id + '">' + row.category.name + '</p>';
                             }
                         },
                         {
-                            data: 'product_description',
-                            name: 'product_description',
+                            data: 'price',
+                            name: 'price',
                             render: function(data, type, row) {
-                                return '<p id="product_description_' +
-                                    row.id + '">' + row.product_description + '</p>';
+                                return '<p id="price_' +
+                                    row.id + '" data-price="' + row.price + '">' + row.price + ' Jd </p>';
+                            }
+                        },
+                        {
+                            data: 'description',
+                            name: 'description',
+                            render: function(data, type, row) {
+                                return '<p id="description_' +
+                                    row.id + '">' + row.description.substring(0, 250) + '...</p>';
                             }
                         },
                         {
@@ -268,7 +332,8 @@
                                     ')" aria-hidden="true"></i>' +
                                     '<i class="fa fa-pencil pl-3 pointer" onclick="lanuchModalUpdate(' + row
                                     .id +
-                                    ')" aria-hidden="true"></i>' +
+                                    ',' + row.category
+                                    .id + ')" aria-hidden="true"></i>' +
                                     '<i class="fa fa-times pl-3 pointer" onclick="lanuchModalDelete(' + row.id +
                                     ')" aria-hidden="true"></i>';
                             }
@@ -296,13 +361,13 @@
                     },
                     success: (data) => {
                         res = JSON.parse(data)
-                        jQuery("#modal-view .modal-title").html(res.product.product_name)
+                        jQuery("#modal-view .modal-title").html(res.product.name)
                         html =
                             `<div>
-                            <img class="w-100" src='` + res.product.product_image_path + `' />
-                            <p class="mt-3"> Product Name : ` + res.product.product_name + `</p>
-                            <p class="mt-2"> Product Price : ` + res.product.product_price + `</p>
-                            <p class="mt-2"> Product Description : ` + res.product.product_description + `</p>
+                            <img class="w-100" src='` + res.product.image_path + `' />
+                            <p class="mt-3"> Product Name : ` + res.product.name + `</p>
+                            <p class="mt-2"> Product Price : ` + res.product.price + ` JD</p>
+                            <p class="mt-2"> Product Description : ` + res.product.description + `</p>
 
                         </div>`;
                         jQuery("#modal-view .modal-body").html(html)
@@ -314,13 +379,17 @@
                 });
             }
 
-            function lanuchModalUpdate(id) {
+            function lanuchModalUpdate(id, category_id) {
                 $('.modal-update').modal("show");
-
-                $("#update_pr_name").val($("#product_name_" + id).text())
-                price = $("#product_price_" + id).text();
+                $(".modal-update select option").each(function() {
+                    $(this).removeAttr("selected");
+                })
+                $(".modal-update select option[value='" + category_id + "']").attr("selected", true)
+                $("#update-name").text($("#name_" + id).text())
+                $("#update_pr_name").val($("#name_" + id).text())
+                price = $("#price_" + id).attr("data-price");
                 $("#update_pr_price").val(price.replace(/\$/g, ''))
-                text = $("#product_description_" + id).text()
+                text = $("#description_" + id).text()
                 $("#pr_description_update").val(text.trim())
                 $(".update .product-pic").attr("src", $("#image_" + id).attr('src'))
                 $("#_id_update").val(id)
@@ -339,7 +408,7 @@
             function lanuchModalImage(id) {
                 $("#myModal").show();
                 $("#img01").attr("src", $("#image_" + id).attr('src'));
-                $("#caption").text($("#product_name_" + id).text())
+                $("#caption").text($("#name_" + id).text())
             }
 
 
@@ -400,7 +469,7 @@
                                 destory();
                                 prepare();
                             } else {
-                                alert("Some thing went wrong!")
+                                alert(res.error)
                             }
                             setTimeout(() => {
                                 $(".modal-insert").modal("hide")
@@ -428,13 +497,13 @@
                         processData: false,
                         success: (data) => {
                             res = JSON.parse(data)
-                            $("#form-update .spinner-border").removeClass("d-none")
+                            $("#form-update .spinner-border").addClass("d-none")
                             if (res.success) {
                                 $(".alert-success-update").show();
                                 destory();
                                 prepare();
                             } else {
-                                alert("Some thing went wrong!")
+                                alert(res.error)
                             }
                             setTimeout(() => {
                                 $(".modal-update").modal("hide")

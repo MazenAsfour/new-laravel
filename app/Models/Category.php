@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserData extends Model
+class Category extends Model
 {
-    protected $table="personal_data_of_users";
+    protected $table="categories";
 
     protected $fillable = [
-        'user_id',
-        'image_path',
-        'about_user',       
+        "name",
+        "category_id",
+        "description",
+        "created_at",
     ];
- 
 }

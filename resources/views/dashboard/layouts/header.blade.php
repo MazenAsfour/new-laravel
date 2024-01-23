@@ -1,12 +1,13 @@
 @php
-
+    use App\Models\UserData;
+    $UserData = UserData::where('user_id', Auth::user()->id)->first();
 @endphp
 <style>
     .headercount {
         font-size: 13px;
         line-height: 16px;
         padding: 5px 9px;
-        background: #d1c286;
+        background: #ff6426;
         border-radius: 100%;
         color: #fff;
         font-weight: 600;
@@ -22,14 +23,13 @@
 
     .nav-pills .active,
     .nav-pills .show {
-        background: #d1c286 !important;
+        background: #ff6426 !important;
         border-radius: 6px;
     }
 
     .user_img img {
         height: 75px
     }
-
 </style>
 <div class="dashboard dashboard_1">
     <div class="full_container" style="top: 0;
@@ -47,11 +47,11 @@
                     <div class="sidebar_user_info">
                         <div class="icon_setting"></div>
                         <div class="user_profle_side">
-                            <div class="user_img"><img class="img-responsive" src="{{ $admin[0]->image }}"
+                            <div class="user_img"><img class="img-responsive" src="{{ $UserData->image_path }}"
                                     alt="#" /></div>
                             <div class="user_info">
                                 <a href="/dashboard-admin-profile">
-                                    <h6>{{ $admin[0]->name }}</h6>
+                                    <h6>{{ Auth::user()->name }}</h6>
                                     <p><span class="online_animation"></span> Online</p>
                                 </a>
                             </div>
@@ -71,20 +71,12 @@
 
                         <li><a href="/dashboard-users"><i class="fa fa-users orange_color" aria-hidden="true"></i>
                                 <span>Users</span></a></li>
-
+                        <li><a href="/dashboard-categories"><i class="fa fa-cutlery  red_color" aria-hidden="true"></i>
+                                </i> <span>Catgories</span></a>
+                        </li>
                         <li><a href="/dashboard-products"><i class="fa fa-product-hunt  purple_color2"
                                     aria-hidden="true"></i>
                                 </i> <span>Prdoucts</span></a></li>
-               
-                        {{-- <li>
-                            <a href="/dashboard-contact"><i class="fa fa-paper-plane red_color"></i>
-                                <span>Contact</span></a>
-                        </li> --}}
-                     
-{{-- 
-                        <li><a href="/dashboard-invoice"><i class="fa fa-th-large green_color"></i>
-                                <span>Invoice</span></a>
-                        </li> --}}
 
 
                     </ul>
@@ -98,45 +90,22 @@
                         <button type="button" style="min-height: 60px;" id="sidebarCollapse" class="sidebar_toggle"><i
                                 class="fa fa-bars"></i></button>
                         <div class="logo_section">
-                            <a href="/dashboard"><img class="img-responsive" src="/images/logo.png"
-                                    alt="#" /></a>
+                            <a href="/dashboard">Restaurant</a>
                         </div>
                         <div class="right_topbar">
                             <div class="icon_info">
-                                <ul>
-                                    <li>
-                                        <div class="notification">
-                                            <a href="#">
-                                                <div class="notBtn" href="#" style="margin-top: -9px;">
-                                                    <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
-                                                    <i class="fa fa-bell-o fa-bell"><span
-                                                            class="badge messageNotification">0</span></i>
-                                                    <div class="box text-left">
-                                                        <div class="display">
-                                                            <div class="nothing">
-                                                                <i class="fas fa-child stick"></i>
-                                                                <div class="cent">Looks Like your all caught up!
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont" id="area-notifications">
-                                                                <!-- Fold this div and try deleting evrything inbetween -->
+                                {{-- <ul>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                    </li>
                                     <li><a href="#"><i class="fa fa-question-circle"></i></a></li>
-                                    <li><a href="/dashboard-contact"><i class="fa fa-envelope-o"></i><span
-                                                class="badge messageCount">0</span></a></li>
-                                </ul>
+                                    {{-- <li><a href="/dashboard-contact"><i class="fa fa-envelope-o"></i><span
+                                                class="badge messageCount">0</span></a></li> --}}
+                                {{-- </ul> --}}
                                 <ul class="user_profile_dd">
                                     <li>
                                         <a class="dropdown-toggle" data-toggle="dropdown"><img
-                                                class="img-responsive rounded-circle" src="{{ $admin[0]->image }}"
+                                                class="img-responsive rounded-circle" src="{{ $UserData->image_path }}"
                                                 alt="#" /><span
-                                                class="name_user">{{ $admin[0]->name }}</span></a>
+                                                class="name_user">{{ Auth::user()->name }}</span></a>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" href="/dashboard-admin-profile">My
                                                 Profile</a>

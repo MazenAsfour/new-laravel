@@ -24,7 +24,7 @@ class AddAdmin extends Migration
         ]);
         UserData::create([
             'user_id'=>$user->id,
-            'image_path' => 'https://cambodiaict.net/wp-content/uploads/2019/12/computer-icons-user-profile-google-account-photos-icon-account.jpg',
+            'image_path' => '/images/computer-icons-user-profile-google-account-photos-icon-account.jpg',
             'about_user' => 'Hello I Am Using E-Commerce App!',
         ]);
         Admin::create([

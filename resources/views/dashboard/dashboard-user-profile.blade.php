@@ -42,21 +42,23 @@
                                     <div class="col-lg-12">
                                         <div class="full dis_flex center_text">
                                             <div class="profile_img"><img width="180" class="rounded-circle"
-                                                    src={{ $admin[0]->image }} alt="#" /></div>
+                                                    src={{ Auth::user()->image }} alt="#" /></div>
                                             <div class="profile_contant">
                                                 <div class="contact_inner">
-                                                    <h3>{{ $admin[0]->name }}</h3>
+                                                    <h3>{{ Auth::user()->name }}</h3>
                                                     <p><strong>About: </strong>Administrator</p>
                                                     <ul class="list-unstyled tooltips mb-2" style="margin-bottom: 20px">
                                                         <li><i class="fa fa-envelope-o" data-toggle="tooltip"
                                                                 data-placement="top" title="Email"></i> :
-                                                            {{ $admin[0]->email }}</li>
+                                                            {{ Auth::user()->email }}</li>
                                                         <li><i class="fa fa-calendar" aria-hidden="true"
                                                                 data-toggle="tooltip" data-placement="top"
-                                                                title="Created At"></i> : {{ $admin[0]->created_at }}</li>
+                                                                title="Created At"></i> : {{ Auth::user()->created_at }}
+                                                        </li>
                                                         <li><i class="fa fa-clock-o" aria-hidden="true"
                                                                 data-toggle="tooltip" data-placement="top"
-                                                                title="Last Login"></i> : {{ $admin[0]->last_login }}</li>
+                                                                title="Last Login"></i> : {{ Auth::user()->last_login }}
+                                                        </li>
 
                                                     </ul>
                                                     <div class="mt-2">
@@ -99,7 +101,7 @@
                                     <div class="row">
                                         <div class="small-12 medium-2 large-2 columns">
                                             <div class="circle">
-                                                <img class="profile-pic" src="{{ $admin[0]->image }}">
+                                                <img class="profile-pic" src="{{ Auth::user()->image }}">
                                                 <div class="p-image">
                                                     <i class="fa fa-camera upload-button"></i>
                                                     <input class="file-upload" name="image" type="file"
@@ -111,7 +113,7 @@
                                     </div>
                                     <div class="form-outline mb-4">
                                         <label class="form-label" id="">Username</label>
-                                        <input type="text" id="Username" name="name" value={{ $admin[0]->name }}
+                                        <input type="text" id="Username" name="name" value={{ Auth::user()->name }}
                                             required class="form-control" />
                                     </div>
 
@@ -119,9 +121,9 @@
                                     <div class="form-outline mb-4">
                                         <label class="form-label" name="email" for="password1">Email</label>
                                         <input type="email" name="email" id="Email"required
-                                            value={{ $admin[0]->email }} class="form-control" />
+                                            value={{ Auth::user()->email }} class="form-control" />
                                     </div>
-                                    <input type="hidden" id="idSelected" name="id" value={{ $admin[0]->id }}
+                                    <input type="hidden" id="idSelected" name="id" value={{ Auth::user()->id }}
                                         name="">
 
                                     <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px"

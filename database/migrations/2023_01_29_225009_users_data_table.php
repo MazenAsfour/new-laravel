@@ -14,22 +14,19 @@ class UsersDataTable extends Migration
      */
     public function up()
     {
-        DB::beginTransaction();
         try {
             Schema::create('personal_data_of_users', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
                 $table->string('image_path');
-                $table->text('about_user');
-                $table->timestamp('last_login')->useCurrent();
+                $table->string('card_number')->nullable();;
+                $table->text('about_user')->nullable();;;
                 $table->timestamps();
             });
 
-        DB::commit();
         } catch (\Throwable $th) {
             echo $th->getMessage();
-            DB::rollBack();
         }
     }
 
