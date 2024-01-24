@@ -35,7 +35,7 @@ Route::middleware(['dashboardAccess'])->group(function () {
     Route::post('/dashboard-create-user',[App\Http\Controllers\AdminController::class, 'create_user']);
 
     Route::post('/dashboard-update-user',[App\Http\Controllers\AdminController::class, 'update_user']);
-    Route::get('/dashboard-delete-user',[App\Http\Controllers\AdminController::class, 'delete_user']);
+    Route::post('/dashboard-delete-user',[App\Http\Controllers\AdminController::class, 'delete_user']);
     Route::get('/dashboard-admin-profile',[App\Http\Controllers\AdminController::class, 'admin_profile']);
     Route::get('/dashboard-check-password',[App\Http\Controllers\AdminController::class, 'check_password']);
     Route::get('/dashboard-products',[App\Http\Controllers\AdminController::class, 'products']);

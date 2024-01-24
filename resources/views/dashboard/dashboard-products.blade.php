@@ -235,7 +235,7 @@
                     <form id="delete-product">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id=""> Want To Delete it</h5>
+                            <h5 class="modal-title" id="">Do You Want To Delete it</h5>
                             <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>

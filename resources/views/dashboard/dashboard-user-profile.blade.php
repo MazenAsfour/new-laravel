@@ -55,10 +55,7 @@
                                                                 data-toggle="tooltip" data-placement="top"
                                                                 title="Created At"></i> : {{ Auth::user()->created_at }}
                                                         </li>
-                                                        <li><i class="fa fa-clock-o" aria-hidden="true"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="Last Login"></i> : {{ Auth::user()->last_login }}
-                                                        </li>
+
 
                                                     </ul>
                                                     <div class="mt-2">

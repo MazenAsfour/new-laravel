@@ -60,61 +60,38 @@ class AdminController extends Controller
     
     }
     public function dashboard_admins(){
-        $checkAdmin=$this->checkAccess();
-        $user=$this->userSession();
-        $users=$this->getUsers();
-
-        if($checkAdmin){
-            $admins = DB::select( DB::raw("SELECT admin.id as id,users.name as name, users.email as email,users.created_at as created_at, personal_data_of_users.image_path as image,personal_data_of_users.about_user as about_user ,personal_data_of_users.last_login as last_login  FROM users INNER JOIN personal_data_of_users ON users.id=personal_data_of_users.user_id INNER JOIN admin ON users.id =admin.user_id where users.email_verified_at IS NOT NULL order by users.id DESC;") );
+            $admins = DB::select( DB::raw("SELECT admin.id as id,users.name as name, users.email as email,users.created_at as created_at, personal_data_of_users.image_path as image,personal_data_of_users.about_user as about_user  FROM users INNER JOIN personal_data_of_users ON users.id=personal_data_of_users.user_id INNER JOIN admin ON users.id =admin.user_id where users.email_verified_at IS NOT NULL order by users.id DESC;") );
             $admins=json_decode(json_encode($admins));
-            return view("dashboard.dashboard-admins")->with("admin",true)->with("admin",$user)->with("users",$admins);;
-        }else{
-           abort("404");
+            $rootAdmin = Admin::first();
 
-        }
+            return view("dashboard.dashboard-admins")->with("admin",true)->with("rootAdmin",$rootAdmin)->with("users",$admins);;
+       
     }
-
-
  
-    public function approve_rating(Request $request){
-        $checkAdmin=$this->checkAccess();
-           if($checkAdmin){
-            Rating::where("id",$request->id)->update([
-                "is_approved"=>1
-            ]);         
-        }else{
-           abort("404");
-
-        }
-    }
-    public function delete_rating(Request $request){
-        $checkAdmin=$this->checkAccess();
-           if($checkAdmin){
-            Rating::where("id",$request->id)->delete();         
-        }else{
-           abort("404");
-
-        }
-    }
-
-    
+  
     public function update_user(Request $request){
-        $checkAdmin=$this->checkAccess();
         try {
-            DB::beginTransaction();
-            if($checkAdmin){
-            
-                User::where("id",$request->id)->update([
-                    "email"=>$request->email,
-                    "name"=>$request->name
+            $user= User::where("id",$request->id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+            if ($request->hasFile('image')) {
+                $imageName = time().'.'.$request->image->extension();  
+        
+                $path=$request->image->move(public_path('images'), $imageName);
+                $path="/images/$imageName";
+                UserData::where("user_id",$request->id)->update([
+                    'image_path' =>  $path,
                 ]);
-                
             }
-            DB::commit();
+            UserData::where("user_id",$request->id)->update([
+                'card_number' =>  $request->card_number,
+            ]);
+            return json_encode(["success"=>true]);
+
         } catch (\Throwable $th) {
-            //DB::rollBack();
-            return json_encode(["error"=>true,"errorMessage"=>$th->getMessage(),"Request"=>$request]);
-            // echo $th->getMessage();
+            DB::rollBack();
+            return json_encode(["success"=>false ,"error"=>$th->getMessage()]);
         }
         
     }
@@ -132,14 +109,19 @@ class AdminController extends Controller
 
   
     public function delete_user(Request $request){
-        $checkAdmin=$this->checkAccess();
-        if($checkAdmin){
             if(isset($request->admin)){
-                Admin::where("id",$request->id)->delete();
+                $rootAdmin = Admin::first();
+             
+                if(intval($rootAdmin->id) == intval($request->id)){
+                    print_r(json_encode(["success"=>false,"error"=>"You can't delete root admin!"]));
+                    die;
+                }else{
+                    Admin::where("id",$request->id)->delete();
+                }
             }
             User::where("id",$request->id)->delete();
             UserData::where("user_id",$request->id)->delete();
-        }
+            print_r(json_encode(["success"=>true]));
     }
     public function check_password(Request $request){
         $checkAdmin=$this->checkAccess();
@@ -174,9 +156,11 @@ class AdminController extends Controller
     }
     public function getUsers()
     {
+        $admins = Admin::get("id")->toArray();
         $data = User::leftJoin('personal_data_of_users', 'users.id', '=', 'personal_data_of_users.user_id')
-        ->select('users.*', 'personal_data_of_users.image_path')
-        ->get();
+            ->select('users.*', 'personal_data_of_users.*')
+            ->whereNotIn('users.id', $admins)
+            ->get();
       
         return DataTables::of($data)
             ->make(true);
@@ -273,11 +257,15 @@ class AdminController extends Controller
     }
     public function create_user(Request $request){
         try {
-            
-            $imageName = time().'.'.$request->image->extension();  
+            if ($request->hasFile('image')) {
+                $imageName = time().'.'.$request->image->extension();  
         
-            $path=$request->image->move(public_path('images'), $imageName);
-            $path="/images/$imageName";
+                $path=$request->image->move(public_path('images'), $imageName);
+                $path="/images/$imageName";
+            }else{
+                $path="/images/computer-icons-user-profile-google-account-photos-icon-account.jpg" ;  
+            }
+           
                 
             $user= User::create([
                 'name' => $request->name,
@@ -286,7 +274,8 @@ class AdminController extends Controller
             ]);
             UserData::create([
                 'user_id'=>$user->id,
-                'image_path' => '/images/computer-icons-user-profile-google-account-photos-icon-account.jpg',
+                'image_path' =>  $path,
+                'card_number' =>  $request->card_number,
                 'about_user' => 'Hello I Am Using E-Commerce App!',
             ]);
 

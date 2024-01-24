@@ -16,10 +16,8 @@
     </style>
 @endpush
 @section('content')
-    <!-- right content -->
     <div id="content">
 
-        <!-- dashboard inner -->
         <div class="midde_cont">
             <div class="container-fluid">
                 <div class="row column_title">
@@ -43,7 +41,9 @@
                                     <th>Admin Email</th>
                                     <th>Admin Role</th>
                                     <th>Created At</th>
-                                    <th style="width: 15px;"></th>
+                                    @if (Auth::user()->id == intval($rootAdmin->id))
+                                        <th style="width: 15px;"></th>
+                                    @endif
 
                                 </tr>
                             </thead>
@@ -58,11 +58,11 @@
                                         <td id="{{ $user->id }}email">{{ $user->email }}</td>
                                         <td>Administrator</td>
                                         <td>{{ $user->created_at }}</td>
-
-                                        {{-- <td><i class="fa fa-pencil pointer"
-                                                onclick="lanuchModalUpdateAdmin({{ $user->id }})"></i></td> --}}
-                                        <td><i class="fa fa-times pointer" onclick="lanuchModalDelete({{ $user->id }})"
-                                                aria-hidden="true"></i></td>
+                                        @if (Auth::user()->id == intval($rootAdmin->id))
+                                            <td><i class="fa fa-times pointer"
+                                                    onclick="lanuchModalDelete({{ $user->id }})" aria-hidden="true"></i>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -74,46 +74,6 @@
             </div>
         </div>
 
-
-        <!-- Modal -->
-        <div class="modal fade modal-update" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
-            aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Admin Inforamtion</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
-                        <form id="form">
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
-                                <label class="form-label" id="">Username</label>
-                                <input type="text" id="Username" required class="form-control" />
-                            </div>
-
-                            <!-- password input -->
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="password1">Email</label>
-                                <input type="email" id="Email"required class="form-control" />
-                            </div>
-                            <input type="hidden" id="idSelected" name="">
-                            <div class="form-outline mb-4">
-                                <label class="form-label" id="">Image Link</label>
-                                <input type="text" id="link"required class="form-control" />
-                            </div>
-                            <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px" role="alert">
-                                Updated Admin Seccuessfully
-                            </div>
-                            <!-- Submit button -->
-                            <button type="submit" onclick="editUser(event)"
-                                class="btn btn-primary btn-block">Update</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="modal fade modal-add-admin" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
@@ -136,17 +96,16 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label"> Password</label>
-                                <input type="password" id="password" minlength="8" size="8"
-                                    placeholder="Passwoed" name="password" required class="form-control" />
+                                <input type="password" id="password" minlength="8" size="8" placeholder="Passwoed"
+                                    name="password" required class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label"> Confirm Password</label>
                                 <input type="password" minlength="8" size="8" id="confirm-password"
-                                    placeholder="Confrim Password" name="confirm-password" required
-                                    class="form-control" />
+                                    placeholder="Confrim Password" name="confirm-password" required class="form-control" />
                             </div>
-                            <div class="alert alert-danger ds-none"id="errPassword"
-                                style="padding:8px 12px;font-size:14px" role="alert">
+                            <div class="alert alert-danger ds-none"id="errPassword" style="padding:8px 12px;font-size:14px"
+                                role="alert">
                                 Oops! something went wrong please try again
                             </div>
                             <div class="alert alert-success-insert alert-success ds-none"
@@ -161,68 +120,40 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade modal-update-admin" id="staticBackdrop1" tabindex="-1"
-            aria-labelledby="exampleModalLabel1" aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Modifiy Admin Role</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
-                            aria-label="Close"></button>
-                    </div>
-                    <form id="form-admin" action="dashborad-modify-admin">
-                        <div class="modal-body p-4">
-                            <!-- Email input -->
-                            Do You Want To Update Admin Role as User?
+        @if (Auth::user()->id == intval($rootAdmin->id))
+            <div class="modal fade modal-delete" id="modal-delete" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                <div class="modal-dialog d-flex justify-content-center">
+                    <div class="modal-content w-100">
+                        <form id="delete-user">
                             @csrf
-                            <input type="hidden" name="" id="idAdmin">
-                            <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px"
-                                role="alert">
-                                Updated Admin Seccuessfully
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="">Do You Want To Delete it</h5>
+                                <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            <!-- Submit button -->
-                        </div>
-                        <div class="modal-footer text-right">
-                            <button class="btn btn-light" onclick="hideModal()">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Confirm And
-                                Modify</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade modal-delete" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
-            aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Account Want To Delete it</h5>
-                        <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
-                        Do You Want To delete This Admin?
-                    </div>
-                    <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px;margin:0 10px 10px "
-                        role="alert">
-                        Deleted User Seccuessfully
-                    </div>
-                    <div class="modal-footer text-right">
-                        <button class="btn btn-light" onclick="hideModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="deleteUser()">Confirm And Delete</button>
-
+                            <div class="modal-body p-4">
+                                Make sure that user will can't access this restaurant again!
+                            </div>
+                            <input type="hidden" name="id" id="idSelected">
+                            <div class="alert alert-success ds-none"
+                                style="padding:8px 12px;font-size:14px;margin:0 10px 10px " role="alert">
+                                Deleted Seccuessfully
+                            </div>
+                            <div class="modal-footer text-right">
+                                <button class="btn btn-light" onclick="hideModal()">Cancel</button>
+                                <button class="btn btn-primary" type="submit">Confirm And Delete</button>
+                                <div class="spinner-border spinner-border-sm d-none" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+
 
         <script>
-            // function lanuchModalUpdate(id) {
-            //     $('.modal-update-admin').modal("show");
-            //     $("#idAdmin").val(id)
-            // }
-
             function lanuchModalUpdateAdmin(id) {
                 $('.modal-update').modal("show");
 
@@ -239,7 +170,7 @@
 
             function lanuchModalDelete(id) {
                 $('.modal-delete').modal("show");
-                $("#idSelected").val(id)
+                $(".modal-delete #idSelected").val(id)
             }
 
             function hideModal() {
@@ -275,25 +206,40 @@
 
                 }
             }
+            $('#delete-user').submit(function(e) {
+                e.preventDefault();
+                $("#delete-user .spinner-border").removeClass("d-none");
 
-            function deleteUser() {
-
-                var id = $("#idSelected").val();
+                var formData = new FormData(this);
+                formData.append("admin", true)
                 $.ajax({
-                    method: "get",
+                    type: 'POST',
                     url: "/dashboard-delete-user",
-                    data: {
-                        'id': id,
-                        'admin': true
-                    }
-                }).done(function(data) {
-                    $(".alert-success").show();
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000);
-                });
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        res = JSON.parse(data);
+                        $("#delete-user .spinner-border").addClass("d-none");
 
-            }
+                        if (res.success) {
+                            $(".modal-delete .alert-success").show();
+                            destory();
+                            prepare();
+                        } else {
+                            alert(res.error);
+                        }
+
+                        setTimeout(() => {
+                            $(".modal-delete").modal("hide");
+                            $(".modal-delete .alert-success").hide();
+                        }, 3000);
+                    },
+                    error: function(data) {
+                        // Handle error
+                    }
+                });
+            });
             $(document).ready(function() {
                 $("#form-admin").submit(function(e) {
 

@@ -32,6 +32,7 @@
                                     <th>User Profile</th>
                                     <th>User Name</th>
                                     <th>User Email</th>
+                                    <th>Card Number</th>
                                     <th>Created At</th>
                                     <th style="width: 100px"></th>
                                 </tr>
@@ -53,7 +54,7 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-4">
-                        <form id="form" method="POST" enctype="multipart/form-data">
+                        <form id="form-create" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="small-12 medium-2 large-2 columns">
@@ -79,7 +80,7 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="">Card Number (optional)</label>
-                                <input type="number" name="visa" class="visa-number form-control" required>
+                                <input type="text" name="card_number" maxlength="19" class="visa-number form-control">
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="">Password</label>
@@ -94,7 +95,7 @@
                             <div class="spinner-border spinner-border-sm d-none" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
-                            <div class="alert alert-danager ds-none" style="padding:8px 12px;font-size:14px" role="alert">
+                            <div class="alert alert-danger ds-none" style="padding:8px 12px;font-size:14px" role="alert">
 
                             </div>
                             <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px" role="alert">
@@ -107,7 +108,7 @@
             </div>
         </div>
 
-        <div class="modal fade modal-update" id="" tabindex="-1" aria-labelledby="exampleModalLabel1"
+        <div class="modal fade modal-update" id="modal-update" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
                 <div class="modal-content ">
@@ -117,7 +118,7 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-4">
-                        <form id="form" method="POST" enctype="multipart/form-data">
+                        <form id="form-update" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="small-12 medium-2 large-2 columns">
@@ -143,8 +144,19 @@
                                     class="form-control" />
                             </div>
                             <input type="hidden" id="idSelected" name="id" value='' name="">
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="">Card Number (optional)</label>
+                                <input type="text" name="card_number" maxlength="19"
+                                    class="visa-number form-control">
+                            </div>
+
                             <div class="spinner-border spinner-border-sm d-none" role="status">
                                 <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="alert alert-danger ds-none" style="padding:8px 12px;font-size:14px"
+                                role="alert">
+
                             </div>
                             <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px"
                                 role="alert">
@@ -157,27 +169,32 @@
             </div>
         </div>
 
-        <div class="modal fade modal-delete" id="" tabindex="-1" aria-labelledby="exampleModalLabel1"
-            aria-hidden="true">
+        <div class="modal fade modal-delete" id="modal-delete" tabindex="-1" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Account Want To Delete it</h5>
-                        <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
-                        Do You Want To delete This User?
-                    </div>
-                    <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px;margin:0 10px 10px "
-                        role="alert">
-                        Deleted User Seccuessfully
-                    </div>
-                    <div class="modal-footer text-right">
-                        <button class="btn btn-light" onclick="hideModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="deleteUser()">Confirm And Delete</button>
-
-                    </div>
+                <div class="modal-content w-100">
+                    <form id="delete-user">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="">Do You Want To Delete it</h5>
+                            <button type="button" class="btn-close" onclick="hideModal()" data-mdb-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            Make sure that user will can't access this restaurant again!
+                        </div>
+                        <input type="hidden" name="id" id="idSelected">
+                        <div class="alert alert-success ds-none"
+                            style="padding:8px 12px;font-size:14px;margin:0 10px 10px " role="alert">
+                            Deleted Seccuessfully
+                        </div>
+                        <div class="modal-footer text-right">
+                            <button class="btn btn-light" onclick="hideModal()">Cancel</button>
+                            <button class="btn btn-primary" type="submit">Confirm And Delete</button>
+                            <div class="spinner-border spinner-border-sm d-none" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -187,7 +204,15 @@
         <script>
             jQuery(document).ready(function($) {
                 prepare()
+                $('.visa-number').on('input', function() {
+                    var inputValue = $(this).val().replace(/\s/g, '');
+                    var formattedValue = inputValue.replace(/(\d{4})(\d{4})(\d{4})(\d{0,4})/, function(match,
+                        p1, p2, p3, p4) {
+                        return p1 + '-' + p2 + '-' + p3 + '-' + p4;
+                    });
 
+                    $(this).val(formattedValue);
+                });
             });
 
             function prepare() {
@@ -225,7 +250,14 @@
                                         '</p>';
                                 }
                             },
-
+                            {
+                                data: 'card_number',
+                                name: 'card_number',
+                                render: function(data, type, row) {
+                                    return '<p id="card_number_' + row.id + '">' + row.card_number +
+                                        '</p>';
+                                }
+                            },
                             {
                                 data: 'created_at',
                                 name: 'created_at',
@@ -263,7 +295,7 @@
                     hour: '2-digit',
                     minute: '2-digit',
                     second: '2-digit',
-                    timeZoneName: 'short'
+                    // timeZoneName: 'short'
                 };
 
                 var formattedDate = date.toLocaleDateString('en-US', optionsDate);
@@ -282,8 +314,8 @@
             }
 
             function lanuchModalDelete(id) {
-                $('.modal-delete').modal("show");
-                $("#idSelected").val(id)
+                $('#modal-delete').modal("show");
+                $("#modal-delete #idSelected").val(id)
             }
 
             function LanuchSendResetPasswordModal(email) {
@@ -307,23 +339,40 @@
                 $('#modal-create').modal("show");
             }
 
-            function deleteUser() {
+            $('#delete-user').submit(function(e) {
+                e.preventDefault();
+                $("#delete-user .spinner-border").removeClass("d-none");
 
-                var id = $("#idSelected").val();
+                var formData = new FormData(this);
+
                 $.ajax({
-                    method: "get",
+                    type: 'POST',
                     url: "/dashboard-delete-user",
-                    data: {
-                        'id': id,
-                    }
-                }).done(function(data) {
-                    $(".alert-success").show();
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000);
-                });
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        res = JSON.parse(data);
+                        $("#delete-user .spinner-border").addClass("d-none");
 
-            }
+                        if (res.success) {
+                            $(".modal-delete .alert-success").show();
+                            destory();
+                            prepare();
+                        } else {
+                            alert(res.error);
+                        }
+
+                        setTimeout(() => {
+                            $(".modal-delete").modal("hide");
+                            $(".modal-delete .alert-success").hide();
+                        }, 3000);
+                    },
+                    error: function(data) {
+                        // Handle error
+                    }
+                });
+            });
             $(document).ready(function() {
 
                 $('#myTable').DataTable();
@@ -332,52 +381,18 @@
                 $("#myTable_filter input").attr("placeholder", "Search..");
 
 
-                $('#form-update').submit(function(e) {
-                    e.preventDefault();
-                    $("#form-update .spinner-border").removeClass("d-none")
-                    var formData = new FormData(this);
 
-                    $.ajax({
-                        type: 'POST',
-                        url: "/dashboard-update-user",
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: (data) => {
-                            res = JSON.parse(data)
-                            $("#form-update .spinner-border").addClass("d-none")
-                            if (res.success) {
-                                $(".alert-success-update").show();
-                                destory();
-                                prepare();
-                            } else {
-                                alert(res.error)
-                            }
-                            setTimeout(() => {
-                                $(".modal-update").modal("hide")
-                                $(".alert-success-update").hide();
-                            }, 3000);
-                        },
-                        error: function(data) {
-                            console.log(data)
-                        }
-                    });
-
-
-
-                });
                 $('#form-create').submit(function(e) {
                     e.preventDefault();
                     if (jQuery("#form-create .password").val() !== jQuery("#form-create .confirm-password")
                         .val()) {
-                        jQuery("#modal-create .alert-danager").removeClass("ds-none");
-                        jQuery("#modal-create .alert-danager").text("Passwords not match!");
+                        jQuery("#modal-create .alert-danger").removeClass("ds-none");
+                        jQuery("#modal-create .alert-danger").text("Passwords not match!");
+                        return false;
                     } else {
-                        jQuery("#modal-create .alert-danager").addClass("ds-none");
+                        jQuery("#modal-create .alert-danger").addClass("ds-none");
                     }
-                    ("#modal-create .spinner-border").addClass("d-none")
-                        .removeClass("d-none")
+                    jQuery("#modal-create .spinner-border").removeClass("d-none")
                     var formData = new FormData(this);
 
                     $.ajax({
@@ -389,16 +404,18 @@
                         processData: false,
                         success: (data) => {
                             res = JSON.parse(data)
-                                ("#modal-create .spinner-border").addClass("d-none")
+                            $("#modal-create .spinner-border").addClass("d-none")
                             if (res.success) {
                                 $("#modal-create .alert-success").show();
                                 destory();
                                 prepare();
                             } else {
-                                alert(res.error)
+                                jQuery("#modal-create .alert-danger").removeClass("ds-none");
+                                jQuery("#modal-create .alert-danger").text(res.error);
                             }
                             setTimeout(() => {
-                                $(".modal-update").modal("hide")
+                                $("#modal-create").modal("hide")
+                                jQuery("#modal-create .alert-danger").addClass();
                                 $("#modal-create .alert-success").hide();
                             }, 3000);
                         },
@@ -406,9 +423,42 @@
                             console.log(data)
                         }
                     });
+                });
 
+                $('#form-update').submit(function(e) {
+                    e.preventDefault();
 
+                    jQuery("#modal-update .spinner-border").removeClass("d-none")
+                    var formData = new FormData(this);
 
+                    $.ajax({
+                        type: 'POST',
+                        url: "/dashboard-update-user",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: (data) => {
+                            res = JSON.parse(data)
+                            $("#modal-update .spinner-border").addClass("d-none")
+                            if (res.success) {
+                                $("#modal-update .alert-success").show();
+                                destory();
+                                prepare();
+                            } else {
+                                jQuery("#modal-update .alert-danger").removeClass("ds-none");
+                                jQuery("#modal-update .alert-danger").text(res.error);
+                            }
+                            setTimeout(() => {
+                                $(".modal-update").modal("hide")
+                                jQuery("#modal-update .alert-danger").addClass();
+                                $("#modal-update .alert-success").hide();
+                            }, 3000);
+                        },
+                        error: function(data) {
+                            console.log(data)
+                        }
+                    });
                 });
 
 
@@ -437,7 +487,7 @@
             })
 
             function destory() {
-                jQuery('#productDataTable').DataTable().destroy();
+                jQuery('#userDataTable').DataTable().destroy();
 
             }
         </script>
