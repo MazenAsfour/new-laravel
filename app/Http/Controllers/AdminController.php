@@ -21,6 +21,7 @@ use App\Models\UserData;
 use App\Models\Notifications;
 use App\Http\Controllers\sendEmail;
 use DataTables;
+use App\Models\ConfigOption;
 class AdminController extends Controller
 {
 
@@ -47,12 +48,34 @@ class AdminController extends Controller
         }
     }
    
+
     public function index(){
-        
-        return view("dashboard/dashboard");
+
+        $logo =ConfigOption::where("option_name","logo")->first();
+        $name =  ConfigOption::where("option_name","restaurant_name")->first();
+        return view("dashboard/dashboard")->with(compact("logo","name"));
         
     }
    
+    public function update_options(Request $request){
+     
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();  
+    
+            $path=$request->image->move(public_path('images'), $imageName);
+            $path="/images/$imageName";
+            ConfigOption::where("option_name","logo")->update([
+                'option_value' =>  $path,
+            ]);
+
+        }
+        ConfigOption::where("option_name","restaurant_name")->update([
+            'option_value' =>  $request->restaurant_name,
+        ]);
+        print_r(json_encode(["success"=>true]));
+
+    
+    }
     public function users(){
      
         $adminData = UserData::where('user_id', Auth::user()->id)->first();
@@ -82,9 +105,13 @@ class AdminController extends Controller
                 $path="/images/$imageName";
                 UserData::where("user_id",$request->id)->update([
                     'image_path' =>  $path,
+                    'points'=>$request->points,
+                    'free_gift'=>intval($request->points)/7,
                 ]);
             }
             UserData::where("user_id",$request->id)->update([
+                'points'=>$request->points,
+                'free_gift'=>intval($request->points)/7,
                 'card_number' =>  $request->card_number,
             ]);
             return json_encode(["success"=>true]);
@@ -275,6 +302,8 @@ class AdminController extends Controller
             UserData::create([
                 'user_id'=>$user->id,
                 'image_path' =>  $path,
+                'points'=>intval($request->points),
+                'free_gift'=>intval($request->points)/7,
                 'card_number' =>  $request->card_number,
                 'about_user' => 'Hello I Am Using E-Commerce App!',
             ]);
@@ -379,44 +408,7 @@ class AdminController extends Controller
 
         }
     }
-    public function get_unread_message(){
-        $unreadMessage=Contact::where("is_read",false)->get();
-        return json_encode(["messageCount"=>count($unreadMessage)]);
-    }
-    public function mark_as_read(){
-        Contact::where("is_read",false)->update(["is_read"=>true]);
-    }
-    public function get_notifications(){
-        $post=notifications::orderBy('notifiable_id', 'DESC')->get();
-        return json_encode($post);
-    }
-    public function get_notifications_image(Request $request){
-        $image=UserData::where("user_id",$request->id)->get("image_path");
-        return($image);
-    }
-    public function get_notifications_count(){
-        $count=notifications::where('read_at', null)->get();
-        return json_encode(['count'=>count($count)]);
-    }
-    public function update_read_notifications(){
-        $count=notifications::where('read_at', null)->update([
-            'read_at'=>now()
-        ]);
-    }
-    public function test(){
-        DB::beginTransaction();
-        try {
-             $id=Auth::user()->id;
-             $Admin=Admin::where("user_id", $id)->get();
-            $result = Admin::where("user_id",$id)->get()->first();
-            $result->notify(new AddNewAdmin($result));
-            DB::commit();
-        } catch (\Throwable $th) {
-           echo $th->getMessage();
-           DB::rollBack();
-
-        }
-    }
+  
 
     public function sendResetPasswordEmail(Request $request){
         $checkAdmin=$this->checkAccess();

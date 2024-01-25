@@ -22,8 +22,47 @@
                         </div>
                     </div>
                 </div>
-                <div class="row column1">
-                    <div class="col-md-6 col-lg-3">
+                <div class="row column4 graph">
+                    <div class="col-md-6 ">
+                        <div class="dash_blog" style="
+                           min-height: 462px;
+                       ">
+                            <div class="dash_blog_inner">
+                                <div class="dash_head">
+                                    <h3><span><i class="fa fa-cog"></i> Site Name</span></h3>
+                                </div>
+
+                                <div class="task_list_main p-4">
+                                    <form id="form-options" class="mt-2" action="/dashboard-set-options"
+                                        enctype="multipart/form-data" method="POST">
+                                        @csrf
+                                        <img src="{{ $logo->option_value }}" width="100px;height:100px;object-fit:cover"
+                                            alt="">
+                                        <div class="form-outline mb-4 mt-4">
+                                            <label class="form-label" id="">Change Logo</label>
+                                            <input type="file" name="image" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" id=""> Site Name</label>
+                                            <input type="text" name="restaurant_name" value="{{ $name->option_value }}"
+                                                placeholder="Site Name" required class="form-control" />
+                                        </div>
+                                        <div class="spinner-border spinner-border-sm d-none" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px"
+                                            role="alert">
+                                            Updated Seccuessfully
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">Update
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="full counter_section margin_bottom_30">
                             <div class="couter_icon">
                                 <div>
@@ -37,8 +76,9 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <div class="col-md-6 col-lg-3">
+                    <div class="col-md-3">
                         <div class="full counter_section margin_bottom_30">
                             <div class="couter_icon">
                                 <div>
@@ -53,6 +93,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row column1">
+
+
                     <div class="col-md-6 col-lg-3">
                         <div class="full counter_section margin_bottom_30">
                             <div class="couter_icon">
@@ -185,72 +229,34 @@
                         </div>
                     </div>
                 </div>
-                <!-- end graph -->
+                <script>
+                    $('#form-options').submit(function(e) {
+                        e.preventDefault();
+                        $("#form-options .spinner-border").removeClass("d-none");
 
-                <div class="row column4 graph">
-                    <div class="col-md-6 margin_bottom_30">
-                        <div class="dash_blog">
-                            <div class="dash_blog_inner">
-                                <div class="dash_head">
-                                    <h3><span><i class="fa fa-calendar"></i> 6 July 2018</span><span
-                                            class="plus_green_bt"><a href="#">+</a></span></h3>
-                                </div>
-                                <div class="list_cont">
-                                    <p>Today Tasks for Ronney Jack</p>
-                                </div>
-                                <div class="task_list_main">
-                                    <ul class="task_list">
-                                        <li><a href="#">Meeting about plan for Admin Enhancing
-                                                2023</a><br><strong>10:00 AM</strong></li>
-                                        <li><a href="#">Create new task for Dashboard</a><br><strong>10:00 AM</strong>
-                                        </li>
-                                        <li><a href="#">Meeting about plan for Admin Modifying Users
-                                                Roles</a><br><strong>11:00 AM</strong></li>
-                                        <li><a href="#">Create new task for Interface</a><br><strong>10:00 AM</strong>
-                                        </li>
-                                        <li><a href="#">Meeting about plan for Admin Modifying Database
-                                                Structure</a><br><strong>02:00 PM</strong></li>
-                                    </ul>
-                                </div>
-                                <div class="read_more">
-                                    <div class="center"><a class="main_bt read_bt" href="#">Read More</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="dash_blog">
-                            <div class="dash_blog_inner">
-                                <div class="dash_head">
-                                    <h3><span><i class="fa fa-comments-o"></i> Updates</span><span class="plus_green_bt"><a
-                                                href="#">+</a></span></h3>
-                                </div>
-                                <div class="list_cont">
-                                    <p>Last User confirmation</p>
-                                </div>
-                                <div class="msg_list_main">
-                                    <ul class="msg_list">
-                                        @foreach ($users as $user)
-                                            <li>
-                                                <span><img src="{{ $user->image }}" class="img-responsive"
-                                                        alt="#" /></span>
-                                                <span>
-                                                    <span class="name_user">{{ $user->name }}</span>
-                                                    <span class="msg_user">{{ $user->about_user }}</span>
-                                                </span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <div class="read_more">
-                                    <div class="center"><a class="main_bt read_bt" href="/dashboard-users">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        var formData = new FormData(this);
 
-            <!-- end dashboard inner -->
-        @endsection
+                        $.ajax({
+                            type: 'POST',
+                            url: "/dashboard-set-options",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data) {
+                                res = JSON.parse(data);
+                                $("#form-options .spinner-border").addClass("d-none");
+                                if (res.success) {
+                                    $("#form-options .alert-success").removeClass("ds-none");
+
+                                } else {
+                                    alert(res.error);
+                                }
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 3000);
+                            },
+                            error: function(data) {}
+                        });
+                    });
+                </script>
+            @endsection
