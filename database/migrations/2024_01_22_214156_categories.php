@@ -3,7 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use app\Models\Category;
+use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+
 class Categories extends Migration
 {
     /**
@@ -13,13 +15,17 @@ class Categories extends Migration
      */
     public function up()
     {
+   
+        Schema::dropIfExists('products');
+
+        Schema::dropIfExists('categories');
+
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();;
             $table->timestamps();
         });
-
         Category::create([
             "name"=>"uncategorized",
             "description"=>""

@@ -14,6 +14,8 @@ class Products extends Migration
     public function up()
     {
         try {
+            Schema::dropIfExists('products');
+
             Schema::create('products', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');

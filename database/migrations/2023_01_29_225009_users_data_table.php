@@ -20,6 +20,8 @@ class UsersDataTable extends Migration
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
                 $table->string('image_path');
+                $table->integer('points')->nullable();
+                $table->integer('free_gift')->nullable();
                 $table->string('card_number')->nullable();;
                 $table->text('about_user')->nullable();;;
                 $table->timestamps();

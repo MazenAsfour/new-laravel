@@ -14,6 +14,8 @@ class Contact extends Migration
     public function up()
     {
         try {
+            Schema::dropIfExists('contact');
+
             Schema::create('contact', function (Blueprint $table) {
                 $table->id();
                 $table->string('user_name');
