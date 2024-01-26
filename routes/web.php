@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,3 +87,10 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/menu', function () {
     return view('menu');
 }); 
+
+
+// start  menuuuuuuuuuuuuu
+
+Route::get('/menu', [MenuController::class, 'index']);
+
+Route::get('/get-products/{category}', [MenuController::class, 'getProducts']);

@@ -8,3 +8,4 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.H,
 });
+

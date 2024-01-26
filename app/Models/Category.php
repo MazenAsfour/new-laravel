@@ -15,4 +15,9 @@ class Category extends Model
         "description",
         "created_at",
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

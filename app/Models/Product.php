@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $table="products";
+    protected $table = "products";
 
     protected $fillable = [
         "name",
@@ -17,8 +17,9 @@ class Product extends Model
         "description",
         "created_at",
     ];
+
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 }
