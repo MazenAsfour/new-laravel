@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::dropIfExists('personal_data_of_users');
-
+        Schema::dropIfExists('notification_requests');
         Schema::dropIfExists('users');
         Schema::create('users', function (Blueprint $table) {
             $table->id();
