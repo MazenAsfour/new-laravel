@@ -63,6 +63,7 @@
                                         <h3>{{ $product->name }}</h3>
                                         <p>{{ $product->description }}</p>
                                         <h5>${{ $product->price }}</h5>
+
                                     </div>
                                 </div>
                             </div>
