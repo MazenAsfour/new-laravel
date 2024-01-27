@@ -21,6 +21,7 @@ Route::get('/',[App\Http\Controllers\PublicController::class, 'welcome_view']);
 Route::get('/contact',[App\Http\Controllers\PublicController::class, 'contact_view']);
 
 Route::post('/contact-message',[App\Http\Controllers\PublicController::class, 'contact_message']);
+Route::post('/save-request',[App\Http\Controllers\PublicController::class, 'save_request']);
 
 
 

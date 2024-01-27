@@ -54,6 +54,16 @@
             }
 
         }
+
+        #request_point {
+
+            padding: 14px 25px 14px 25px !important;
+            cursor: pointer;
+        }
+
+        .notice-request {
+            display: none;
+        }
     </style>
     <link rel="stylesheet" href="{{ asset('newtheme/css/card.css') }}">
 @endpush
@@ -76,6 +86,12 @@
 
                             <div id="qrcode-container">
                                 <div id="qrcode"></div>
+                            </div>
+                            <div class="mt-3">
+                                <a id="request_point" class="btn_2 "> Request Point Now</a>
+                                <p class="text-white mt-2 notice-request" id="notice-request">You request has been sent
+                                    successfully. Please
+                                    wait 1 minutes then you can request again! </p>
                             </div>
                         </div>
                     </div>
@@ -112,7 +128,7 @@
                                     </div>
 
                                     <h2 class="numero-cartao" id="card-preview">
-                                        {{ !empty($userData->card_number) ? $userData->card_number : 0000 - 0000 - 0000 - 0000 }}
+                                        {{ !empty($userData->card_number) ? $userData->card_number : '0000-0000-0000-0000' }}
                                     </h2>
 
                                     <a onclick="lanuchModalUpdate()" class="btn_2_reverse "> Update</a>
