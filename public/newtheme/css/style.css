@@ -2503,7 +2503,10 @@ nav.navbar.navbar-expand-lg.navbar-light {
 
 /* line 98, E:/169 Dingo Restaurant/169 Dingo Restaurant/169_Dingo_Restautent_html/sass/_food_menu.scss */
 .food_menu .single_food_item img {
-    border-right: 10px solid #f6f5f1;
+  border-right: 10px solid #f6f5f1;
+  width: 200px;
+  height: 133px;
+
 }
 
 @media (max-width: 576px) {
