@@ -31,6 +31,8 @@ Route::middleware(['dashboardAccess'])->group(function () {
 
     Route::get('/dashboard-users/data', [App\Http\Controllers\AdminController::class, 'getUsers'])->name('users.data');
 
+    Route::post('/dashboard-set-options',[App\Http\Controllers\AdminController::class, 'update_options']);
+
     Route::get('/dashboard',[App\Http\Controllers\AdminController::class, 'index']);
     Route::get('/dashboard-users',[App\Http\Controllers\AdminController::class, 'users']);
     Route::post('/dashboard-create-user',[App\Http\Controllers\AdminController::class, 'create_user']);
@@ -76,9 +78,12 @@ Route::post('/upload-image-user',[App\Http\Controllers\AjaxUploadController::cla
 
 // End Upload Image Routes
 
-Route::auth(['register' => false]);
+// Route::auth(['register' => false]);
 
 Auth::routes();
+
+Route::get('/profile', [App\Http\Controllers\PublicController::class, 'profile'])->middleware('auth');
+Route::post('/user-update-card', [App\Http\Controllers\PublicController::class, 'update_card'])->middleware('auth');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

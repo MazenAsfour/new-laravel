@@ -32,41 +32,45 @@
                 <div class="container">
 
                     <div class="well">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Admin Profile</th>
-                                    <th>Admin Name</th>
-                                    <th>Admin Email</th>
-                                    <th>Admin Role</th>
-                                    <th>Created At</th>
-                                    @if (Auth::user()->id == intval($rootAdmin->id))
-                                        <th style="width: 15px;"></th>
-                                    @endif
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $user)
-                                    <tr id="{{ $user->id }}">
-                                        <td>{{ $user->id }}</td>
-                                        <td><img id="{{ $user->id }}img" src="{{ $user->image }}"
-                                                style="width:30px;height:30px;border-radius:100%"class="img-responsive"
-                                                alt="#" /></td>
-                                        <td id="{{ $user->id }}name">{{ $user->name }}</td>
-                                        <td id="{{ $user->id }}email">{{ $user->email }}</td>
-                                        <td>Administrator</td>
-                                        <td>{{ $user->created_at }}</td>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Admin Profile</th>
+                                        <th>Admin Name</th>
+                                        <th>Admin Email</th>
+                                        <th>Admin Role</th>
+                                        <th>Created At</th>
                                         @if (Auth::user()->id == intval($rootAdmin->id))
-                                            <td><i class="fa fa-times pointer"
-                                                    onclick="lanuchModalDelete({{ $user->id }})" aria-hidden="true"></i>
-                                            </td>
+                                            <th style="width: 15px;"></th>
                                         @endif
+
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $user)
+                                        <tr id="{{ $user->id }}">
+                                            <td>{{ $user->id }}</td>
+                                            <td><img id="{{ $user->id }}img" src="{{ $user->image }}"
+                                                    style="width:30px;height:30px;border-radius:100%"class="img-responsive"
+                                                    alt="#" /></td>
+                                            <td id="{{ $user->id }}name">{{ $user->name }}</td>
+                                            <td id="{{ $user->id }}email">{{ $user->email }}</td>
+                                            <td>Administrator</td>
+                                            <td>{{ $user->created_at }}</td>
+                                            @if (Auth::user()->id == intval($rootAdmin->id))
+                                                <td><i class="fa fa-times pointer"
+                                                        onclick="lanuchModalDelete({{ $user->id }})"
+                                                        aria-hidden="true"></i>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
 
 

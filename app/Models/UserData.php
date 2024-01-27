@@ -12,7 +12,10 @@ class UserData extends Model
     protected $fillable = [
         'user_id',
         'image_path',
-        'about_user',       
+        'about_user', 
+        'free_gift',
+        'points',
+        'card_number'
     ];
  
 }

@@ -25,22 +25,27 @@
                 <div class="container">
 
                     <div class="well">
-                        <table class="table" id="userDataTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>User Profile</th>
-                                    <th>User Name</th>
-                                    <th>User Email</th>
-                                    <th>Card Number</th>
-                                    <th>Created At</th>
-                                    <th style="width: 100px"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="table-responsive">
 
-                            </tbody>
-                        </table>
+                            <table class="table" id="userDataTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>User Profile</th>
+                                        <th>User Name</th>
+                                        <th>User Email</th>
+                                        <th>Card Number</th>
+                                        <th>Points</th>
+                                        <th>Free Gifts</th>
+                                        <th>Created At</th>
+                                        <th style="width: 100px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,24 +74,28 @@
 
                                 </div>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" id="">Username</label>
                                 <input type="text" name="name" required class="form-control" />
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" for="">Email</label>
                                 <input type="email" name="email" required value='' class="form-control" />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" for="">Card Number (optional)</label>
                                 <input type="text" name="card_number" maxlength="19" class="visa-number form-control">
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="">Points</label>
+                                <input type="number" name="points" class="points form-control">
+                            </div>
+                            <div class="form-outline mb-2">
                                 <label class="form-label" for="">Password</label>
                                 <input type="password" name="password" class="password form-control" required>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" for="">Confirm Password</label>
                                 <input type="password" name="confirm-password" class="confirm-password form-control"
                                     required>
@@ -101,7 +110,7 @@
                             <div class="alert alert-success ds-none" style="padding:8px 12px;font-size:14px" role="alert">
                                 Created User Profile Seccuessfully
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Create</button>
+                            <button type="submit" class="btn btn-primary btn-block mt-2">Create</button>
                         </form>
                     </div>
                 </div>
@@ -132,25 +141,28 @@
 
                                 </div>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" id="">Username</label>
                                 <input type="text" id="Username" name="name" value='' required
                                     class="form-control" />
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" name="email" for="password1">Email</label>
                                 <input type="email" name="email" id="Email"required value=''
                                     class="form-control" />
                             </div>
                             <input type="hidden" id="idSelected" name="id" value='' name="">
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-2">
                                 <label class="form-label" for="">Card Number (optional)</label>
                                 <input type="text" name="card_number" maxlength="19"
                                     class="visa-number form-control">
                             </div>
-
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="">Points</label>
+                                <input type="number" name="points" class="points form-control">
+                            </div>
                             <div class="spinner-border spinner-border-sm d-none" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
@@ -162,7 +174,7 @@
                                 role="alert">
                                 Updated User Profile Seccuessfully
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Update</button>
+                            <button type="submit" class="btn btn-primary btn-block mt-2">Update</button>
                         </form>
                     </div>
                 </div>
@@ -259,6 +271,23 @@
                                 }
                             },
                             {
+                                data: 'points',
+                                name: 'points',
+                                render: function(data, type, row) {
+                                    return '<p id="points_' + row.id + '">' + row.points +
+                                        '</p>';
+                                }
+                            },
+                            {
+                                data: 'free_gift',
+                                name: 'free_gift',
+                                render: function(data, type, row) {
+                                    return '<p id="card_number_' + row.id + '">' + Math.floor(Number(row
+                                        .free_gift) / 2); +
+                                    '</p>';
+                                }
+                            },
+                            {
                                 data: 'created_at',
                                 name: 'created_at',
                                 render: function(data, type, row) {
@@ -272,6 +301,7 @@
                                 orderable: false,
                                 searchable: false,
                                 render: function(data, type, row) {
+                                    console.log(row);
                                     return ' <td><i class="fa fa-pencil pointer" onclick="lanuchModalUpdate(' +
                                         row.id +
                                         ')" aria-hidden="true"></i> <i class=" pl-3 fa fa-times pointer" onclick="lanuchModalDelete(' +

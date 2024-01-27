@@ -13,6 +13,8 @@ class SiteOptions extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('config_options');
+
         Schema::create('config_options', function (Blueprint $table) {
             $table->id();
             $table->string('option_name');
@@ -24,8 +26,8 @@ class SiteOptions extends Migration
             "option_value"=>"/newtheme/img/1600w-9Gfim1S8fHg-removebg-previewas.png"
         ]);
         ConfigOption::create([
-            "option_name"=>"restaurant_name",
-            "option_value"=>"Restaurant"
+            "option_value"=>"restaurant",
+            "option_name"=>"restaurant_name"
         ]);
     }
 

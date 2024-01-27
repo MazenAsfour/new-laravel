@@ -12,10 +12,6 @@
             width: 100px !important;
         }
 
-        tr td:nth-child(2) {
-            width: 100px !important;
-        }
-
         tr td:nth-child(1) {
             width: 50px !important;
         }
@@ -35,17 +31,19 @@
                         </div>
                     </div>
                 </div>
-                <table id="categoryDataTable" class="table  table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
 
+                    <table id="categoryDataTable" class="table  table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
 
 
             </div>

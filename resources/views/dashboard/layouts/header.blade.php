@@ -1,6 +1,9 @@
 @php
     use App\Models\UserData;
+    use App\Models\ConfigOption;
     $UserData = UserData::where('user_id', Auth::user()->id)->first();
+    $logo = ConfigOption::where('option_name', 'logo')->first();
+    $name = ConfigOption::where('option_name', 'restaurant_name')->first();
 @endphp
 <style>
     .headercount {
@@ -39,8 +42,9 @@
             <nav id="sidebar">
                 <div class="sidebar_blog_1">
                     <div class="sidebar-header">
+                        <i class="fa fa-times"></i>
                         <div class="logo_section">
-                            <a href="/dashboard"><img class="logo_icon img-responsive" src="/images/logo.png"
+                            <a href="/dashboard"><img class="logo_icon img-responsive" src="{{ $logo->option_value }}"
                                     style="object-fit: contain" alt="#" /></a>
                         </div>
                     </div>
@@ -90,16 +94,11 @@
                         <button type="button" style="min-height: 60px;" id="sidebarCollapse" class="sidebar_toggle"><i
                                 class="fa fa-bars"></i></button>
                         <div class="logo_section">
-                            <a href="/dashboard">Restaurant</a>
+                            <a href="/dashboard" style="text-transform: capitalize">{{ $name->option_value }}</a>
                         </div>
                         <div class="right_topbar">
                             <div class="icon_info">
-                                {{-- <ul>
 
-                                    <li><a href="#"><i class="fa fa-question-circle"></i></a></li>
-                                    {{-- <li><a href="/dashboard-contact"><i class="fa fa-envelope-o"></i><span
-                                                class="badge messageCount">0</span></a></li> --}}
-                                {{-- </ul> --}}
                                 <ul class="user_profile_dd">
                                     <li>
                                         <a class="dropdown-toggle" data-toggle="dropdown"><img
@@ -123,16 +122,26 @@
             <!-- end topbar -->
             <script>
                 $("#sidebarCollapse").click(function() {
-                    if ($("#TopBar").val() == 1) {
-                        $("#TopBar").val(0)
-                        $(".topbar").css("padding-left", "280px")
-                        $("#content").css("padding-left", "305px")
-                    } else {
-                        $("#TopBar").val(1)
-                        $(".topbar").css("padding-left", "86px")
-                        $("#content").css("padding-left", "116px")
+
+                    var x = window.matchMedia("(min-width: 900px)")
+                    if (x.matches) {
+                        if ($("#TopBar").val() == 1) {
+                            $("#TopBar").val(0)
+                            $(".topbar").css("padding-left", "280px")
+                            $("#content").css("padding-left", "305px")
+                        } else {
+                            $("#TopBar").val(1)
+                            $(".topbar").css("padding-left", "86px")
+                            $("#content").css("padding-left", "116px")
+                        }
                     }
 
 
+                })
+                jQuery(".right_topbar .dropdown-toggle").click(function() {
+                    jQuery(".right_topbar .dropdown-menu").toggle()
+                })
+                $("#sidebar .fa-times").click(function() {
+                    jQuery("#sidebarCollapse").click()
                 })
             </script>
