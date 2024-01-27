@@ -1,6 +1,6 @@
 <header class="main_menu home_menu">
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center @if(request()->is('menu')) menu-active @endif">
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <a class="navbar-brand" href="index.html"> <img class="logo"
@@ -11,10 +11,10 @@
                         <a href="tel:0797894561" class="btn_2  d-sm-block"> Phone : 079 7894
                             561</a>
                         @auth
-                            <a href="/logout" class="  btn_2_reverse d-sm-block">Logout</a>
+                        <a href="/logout" class="  btn_2_reverse d-sm-block">Logout</a>
                         @endauth
                         @guest
-                            <a href="/login" class="  btn_2_reverse d-sm-block">Login / Register</a>
+                        <a href="/login" class="  btn_2_reverse d-sm-block">Login / Register</a>
 
                         @endguest
 

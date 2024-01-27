@@ -2317,11 +2317,23 @@ ul {
 }
 
 /*# sourceMappingURL=style.css.map */
-
+.menu-active{
+   background: #f6f5f1;
+}
 nav.navbar.navbar-expand-lg.navbar-light {
     justify-content: space-between;
 }
 
+@media(max-width:480px){
+nav.navbar.navbar-expand-lg.navbar-light {
+    justify-content: center;
+    gap: 17px;
+}
+}
+
+.navbar-brand{
+    margin: 0;
+}
 /* food menu  */
 
 .food_menu {

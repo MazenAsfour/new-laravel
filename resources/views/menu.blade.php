@@ -7,22 +7,11 @@
 
 
 @endpush
+
 @section('content')
 
 
-<section class="breadcrumb breadcrumb_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb_iner text-center">
-                    <div class="breadcrumb_iner_item">
-                        <h2>Food Menu</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 <!-- breadcrumb start-->
 
 <!--::chefs_part start::-->
@@ -30,13 +19,13 @@
 <section class="food_menu gray_bg">
     <div class="container">
         <div class="row justify-content-between">
-            <div class="col-lg-5">
+            <div class="col-lg-12">
                 <div class="section_tittle">
                     <p>Popular Menu</p>
                     <h2>Delicious Food Menu</h2>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="nav nav-tabs food_menu_nav" id="myTab" role="tablist">
                     @foreach($categories as $key => $category)
                     <a id="{{ $category->id }}-tab" data-toggle="tab" href="#{{ $category->id }}" role="tab"
@@ -63,7 +52,6 @@
                                         <h3>{{ $product->name }}</h3>
                                         <p>{{ $product->description }}</p>
                                         <h5>${{ $product->price }}</h5>
-
                                     </div>
                                 </div>
                             </div>
