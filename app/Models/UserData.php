@@ -14,7 +14,8 @@ class UserData extends Model
         'image_path',
         'about_user', 
         'free_gift',
-        'points'      
+        'points',
+        'card_number'
     ];
  
 }

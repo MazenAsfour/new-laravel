@@ -50,22 +50,23 @@
 
 
                 </div>
+                <div class="table-responsive">
 
-                <table id="productDataTable" class="table  table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </table>
+                    <table id="productDataTable" class="table  table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
 
-
+                </div>
 
             </div>
         </div>
@@ -90,8 +91,11 @@
                                             src="https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png">
                                         <div class="p-image">
                                             <i class="fa fa-upload upload-button"></i>
-                                            <input id="prodcut-upload" class="file-upload" name="image" required
-                                                type="file" accept="image/*" />
+                                            <input id="prodcut-upload" class="file-upload" name="image" type="file"
+                                                accept="image/*" />
+                                        </div>
+                                        <div class="alert-danger d-none alert" id="alert-file">
+                                            Please attach image here!
                                         </div>
                                     </div>
                                 </div>
@@ -452,6 +456,14 @@
                 $('#form').submit(function(e) {
 
                     e.preventDefault();
+                    var selectedFile = jQuery("#prodcut-upload").prop("files");
+
+                    if (selectedFile.length == 0) {
+                        jQuery("#alert-file").removeClass("d-none")
+                        return;
+                    } else {
+                        jQuery("#alert-file").addClass("d-none")
+                    }
                     $("#form .spinner-border").removeClass("d-none")
                     var formData = new FormData(this);
                     $.ajax({

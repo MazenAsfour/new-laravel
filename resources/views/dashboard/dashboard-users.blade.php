@@ -25,24 +25,27 @@
                 <div class="container">
 
                     <div class="well">
-                        <table class="table" id="userDataTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>User Profile</th>
-                                    <th>User Name</th>
-                                    <th>User Email</th>
-                                    <th>Card Number</th>
-                                    <th>Points</th>
-                                    <th>Free Gifts</th>
-                                    <th>Created At</th>
-                                    <th style="width: 100px"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="table-responsive">
 
-                            </tbody>
-                        </table>
+                            <table class="table" id="userDataTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>User Profile</th>
+                                        <th>User Name</th>
+                                        <th>User Email</th>
+                                        <th>Card Number</th>
+                                        <th>Points</th>
+                                        <th>Free Gifts</th>
+                                        <th>Created At</th>
+                                        <th style="width: 100px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

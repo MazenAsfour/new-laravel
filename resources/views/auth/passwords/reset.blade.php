@@ -132,7 +132,7 @@
 
             </div>
             <p class="c-legalNotice a container">
-                ©2001–2023 All Rights Reserved. WhatsApp is a registered trademark of The Rocket Science Group, LLC. Cookie
+                ©2001–2024 All Rights Reserved. WhatsApp is a registered trademark of The Rocket Science Group, LLC. Cookie
                 Preferences, Privacy, and Terms.
             </p>
         </div>

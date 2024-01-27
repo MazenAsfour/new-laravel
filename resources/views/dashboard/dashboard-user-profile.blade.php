@@ -32,7 +32,7 @@
                         <div class="white_shd full margin_bottom_30">
                             <div class="full graph_head">
                                 <div class="heading1 margin_0">
-                                    <h2>User profile</h2>
+                                    <h2>Admin profile</h2>
                                 </div>
                             </div>
                             <div class="full price_table padding_infor_info">
@@ -42,7 +42,7 @@
                                     <div class="col-lg-12">
                                         <div class="full dis_flex center_text">
                                             <div class="profile_img"><img width="180" class="rounded-circle"
-                                                    src={{ Auth::user()->image }} alt="#" /></div>
+                                                    src="{{ $adminData->image_path }}" alt="#" /></div>
                                             <div class="profile_contant">
                                                 <div class="contact_inner">
                                                     <h3>{{ Auth::user()->name }}</h3>
@@ -84,7 +84,7 @@
                 <div class="modal fade modal-update" id="staticBackdrop1" tabindex="-1"
                     aria-labelledby="exampleModalLabel1" aria-hidden="true">
                     <div class="modal-dialog d-flex justify-content-center">
-                        <div class="modal-content w-75">
+                        <div class="modal-content ">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="">Admin Inforamtion</h5>
                                 <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
@@ -98,7 +98,7 @@
                                     <div class="row">
                                         <div class="small-12 medium-2 large-2 columns">
                                             <div class="circle">
-                                                <img class="profile-pic" src="{{ Auth::user()->image }}">
+                                                <img class="profile-pic" src="{{ $adminData->image_path }}">
                                                 <div class="p-image">
                                                     <i class="fa fa-camera upload-button"></i>
                                                     <input class="file-upload" name="image" type="file"
@@ -137,7 +137,7 @@
                 </div>
                 <div class="modal fade modal-password" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog d-flex justify-content-center">
-                        <div class="modal-content w-75">
+                        <div class="modal-content ">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel1">Change Password</h5>
                                 <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
@@ -221,6 +221,7 @@
                                     data1 = JSON.parse(data)
                                     if (data1.error) {
                                         $(".alert-danger").show();
+                                        $(".alert-danger").text(data1.message);
                                     } else {
                                         $(".alert-success").show();
                                         $(".alert-danger").hide();

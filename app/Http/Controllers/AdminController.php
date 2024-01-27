@@ -123,15 +123,11 @@ class AdminController extends Controller
         
     }
     public function admin_profile(){
-        $checkAdmin=$this->checkAccess();
-        $users=$this->getUsers();
-        $user=$this->userSession();
-        if($checkAdmin){
-            return view("dashboard/dashboard-user-profile")->with("Isadmin",true)->with("admin",$user)->with("users",$users);;
-        }else{
-            abort("404");
-
-        }
+      
+        $user=Auth::user();
+        $adminData= UserData::where("user_id",Auth::user()->id)->first();
+            return view("dashboard/dashboard-user-profile")->with("admin",$user)->with("adminData",$adminData);
+        
     }
 
   
@@ -161,7 +157,7 @@ class AdminController extends Controller
                 $this->updatePassword($newPassword);
                 return json_encode(["error"=>false]);
             }else{
-                return json_encode(["error"=>true ,"oldPassword"=>$oldPassword ,"currentPassword"=>Hash::make($currentPassword)]);
+                return json_encode(["error"=>true,"message"=>"Current password not correct!" ,"oldPassword"=>$oldPassword ,"currentPassword"=>Hash::make($currentPassword)]);
 
             }
 

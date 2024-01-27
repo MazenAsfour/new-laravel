@@ -77,9 +77,12 @@ Route::post('/upload-image-user',[App\Http\Controllers\AjaxUploadController::cla
 
 // End Upload Image Routes
 
-Route::auth(['register' => false]);
+// Route::auth(['register' => false]);
 
 Auth::routes();
+
+Route::get('/profile', [App\Http\Controllers\PublicController::class, 'profile'])->middleware('auth');
+Route::post('/user-update-card', [App\Http\Controllers\PublicController::class, 'update_card'])->middleware('auth');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
