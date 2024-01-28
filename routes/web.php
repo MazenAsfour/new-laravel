@@ -21,6 +21,7 @@ use App\Models\NotificationRequest; // Update the namespace based on your model 
 Route::get('/fetch-notifications', [NotificationController::class, 'fetchNotifications']);
 Route::post('/mark-notification-as-read-by-user/{notification}', [NotificationController::class, 'markAsReadByUser']);
 Route::get('/fetch-unread-notification-count', [NotificationController::class, 'fetchUnreadNotificationCount']);
+Route::get('/mark-as-read', [NotificationController::class, 'markReaded']);
 
 
 Route::get('/',[App\Http\Controllers\PublicController::class, 'welcome_view']);
