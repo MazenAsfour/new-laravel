@@ -14,5 +14,6 @@ class NotificationRequests extends Model
         'id',
         'is_user_read',
         'status',
+        'updated_at'
     ];
 }

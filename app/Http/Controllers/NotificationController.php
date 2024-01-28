@@ -3,33 +3,19 @@ namespace App\Http\Controllers;
 
 use App\Models\NotificationRequest;
 use Illuminate\Http\Request;
-
+use Auth;
+use App\Models\UserData;
 class NotificationController extends Controller
 {
     public function fetchNotifications()
     {
-        $notifications = NotificationRequest::all();
-
-        $transformedNotifications = $notifications
-    ->filter(function ($notification) {
-        return $notification->status == 1;
-    })
-    ->map(function ($notification) {
-        $message = 'The admin has accepted the point';
-
-        return [
-            'id' => $notification->id,
-            'user_id' => $notification->user_id,
-            'status' => $notification->status,
-            'is_user_read' => $notification->is_user_read,
-            'created_at' => $notification->created_at,
-            'updated_at' => $notification->updated_at,
-            'message' => $message,
-        ];
-    });
-
-        
-        return response()->json($transformedNotifications);
+        $notifications = NotificationRequest::where("user_id",Auth::user()->id)->orderBy("id","desc")->get();
+        $userdata = UserData::where("user_id",Auth::user()->id)->first();
+        $total_points = 0;
+        if($userdata){
+            $total_points = $userdata->points;
+        }
+        print_R(json_encode(["success"=>true,"data"=>$notifications,"total_points"=>$total_points]));
     }
 
 

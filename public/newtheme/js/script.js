@@ -70,6 +70,108 @@ setTimeout(() => {
             },
         });
     });
+
+    $(document).ready(function () {
+        $(".displayAnotherModel").click(function () {
+            $(".modal-backdrop").css("display", "none");
+        });
+
+        $("#notificationModal").on("show.bs.modal", function () {
+            $.ajax({
+                url: "/fetch-notifications",
+                method: "GET",
+                success: function (data) {
+                    response = JSON.parse(data);
+
+                    if (response.success) {
+                        var html = "";
+                        $("#notificationModal .modal-body").html("");
+
+                        if (response.data.length) {
+                            for (var i in response.data) {
+                                var notification = response.data[i];
+                                if (
+                                    Number(notification.is_user_read) == 0 &&
+                                    Number(notification.status) == 1
+                                ) {
+                                    var classWeight = "bold";
+                                    var classcolor = "#FFFFCC";
+                                    var msg =
+                                        "The admin has accepted one point at <span class='date-notify'>" +
+                                        formatReadableDate(
+                                            notification.updated_at
+                                        );
+                                } else if (
+                                    Number(notification.is_user_read) == 1 &&
+                                    Number(notification.status) == 1
+                                ) {
+                                    var classWeight = "";
+                                    var classcolor = "#FFFFCC";
+                                    var msg =
+                                        "The admin has accepted one point at <span class='date-notify'>" +
+                                        formatReadableDate(
+                                            notification.updated_at
+                                        );
+                                } else {
+                                    var classWeight = "";
+                                    var classcolor = "#f3f3f3";
+                                    var msg =
+                                        "This request until review<span class='date-notify'>" +
+                                        formatReadableDate(
+                                            notification.updated_at
+                                        );
+                                }
+                                html +=
+                                    "<p class='" +
+                                    classWeight +
+                                    "' style='background-color:" +
+                                    classcolor +
+                                    ";padding:10px;margin-top:8px'>" +
+                                    msg +
+                                    "</span></p>";
+                            }
+                        }
+                        $("#notificationModal .modal-footer").html(
+                            "<div class='total-points d-block w-100'>Total Points : " +
+                                response.total_points +
+                                "</div>"
+                        );
+
+                        $("#notificationModal .modal-body").append(html);
+                    }
+                },
+                error: function (error) {
+                    console.error("Failed to fetch notifications");
+                },
+            });
+        });
+
+        function formatReadableDate(dateString) {
+            var date = new Date(dateString);
+
+            var optionsDate = {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            };
+            var optionsTime = {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                // timeZoneName: 'short'
+            };
+
+            var formattedDate = date.toLocaleDateString("en-US", optionsDate);
+            var formattedTime = date.toLocaleTimeString("en-US", optionsTime);
+
+            return formattedDate + " " + formattedTime;
+        }
+
+        function checkForUnreadNotifications() {
+            fetchUnreadNotificationCount();
+        }
+        setInterval(checkForUnreadNotifications, 60000);
+    });
 }, 300);
 function getCookie(name) {
     var nameEQ = name + "=";

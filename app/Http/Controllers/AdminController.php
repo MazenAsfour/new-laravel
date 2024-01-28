@@ -223,8 +223,9 @@ class AdminController extends Controller
             UserData::where("user_id", $notiRow->user_id)->update([
                 "points"=>$user_total_points
             ]);
-            NotificationRequests::where("id", $request_id )->update([
-                "status"=>$convert_to
+            NotificationRequests::where("id", $request_id)->update([
+                "status" => $convert_to,
+                "updated_at" => now()
             ]);
             return json_encode(["success"=>true]);
 
