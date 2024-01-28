@@ -17,6 +17,9 @@
 
     <link rel="stylesheet" href="/index.css">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
     @stack('custom-scripts')
 
     <!-- Styles -->
@@ -432,8 +435,155 @@
             color: rgba(107, 114, 128, var(--tw-text-opacity))
         }
     }
+
+
+    .icon-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        color: #333333;
+        background: #dddddd;
+        border: none;
+        outline: none;
+        border-radius: 50%;
+    }
+
+    .icon-button:hover {
+        cursor: pointer;
+    }
+
+    .icon-button:active {
+        background: #cccccc;
+    }
+
+    .icon-button__badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 25px;
+        height: 25px;
+        background: red;
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
     </style>
 
+    <script>
+    $(document).ready(function() {
+        $(".displayAnotherModel").click(function() {
+            $('.modal-backdrop').css("display", "none");
+            console.log('safasfasfasfasf');
+        });
+
+
+        $('#notificationModal').on('show.bs.modal', function() {
+            // AJAX request to fetch notifications
+            $.ajax({
+                url: '/fetch-notifications',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+
+                    // Update the modal with the fetched notifications
+                    $('.modal-body').html(''); // Clear existing content
+                    response.forEach(function(notification) {
+                        var message = '<p style="';
+
+                        // Customize based on your column names
+                        message += 'background-color: ' + (notification
+                            .is_user_read ? '#FFFFFF' : '#FFFFCC') + ';';
+                        message += 'padding: 10px;">';
+
+                        message += notification.message;
+
+                        // Check the status and apply styles
+                        if (notification.status == 1) {
+                            message +=
+                                ' <span class="badge bg-success">Admin Accepted</span>';
+                        }
+
+                        message += '</p>';
+                        $('.modal-body').append(message);
+
+                        // Mark the notification as read by the user
+                        if (notification.is_user_read == 0) {
+                            markNotificationAsReadByUser(notification.id);
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.error('Failed to fetch notifications');
+                }
+            });
+        });
+
+
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        // Function to mark the notification as read by the user
+        function markNotificationAsReadByUser(notificationId) {
+            $.ajax({
+                url: '/mark-notification-as-read-by-user/' + notificationId,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    console.log('Notification marked as read by user');
+                },
+                error: function(error) {
+                    console.error('Failed to mark notification as read by user');
+                }
+            });
+        }
+
+
+
+        // Function to fetch the count of unread notifications
+        function fetchUnreadNotificationCount() {
+            $.ajax({
+                url: '/fetch-unread-notification-count',
+                method: 'GET',
+                success: function(response) {
+                    // Update the badge with the fetched count
+                    $('.icon-button__badge').text(response.count);
+                },
+                error: function(error) {
+                    console.error('Failed to fetch unread notification count');
+                }
+            });
+        }
+
+        // Call the function when the page loads
+        $(document).ready(function() {
+            fetchUnreadNotificationCount();
+        });
+
+        // Call the function when the notification modal is shown
+        $('#notificationModal').on('show.bs.modal', function() {
+            // Fetch notifications and update the modal content as before
+
+            // After updating the modal, fetch the unread notification count again
+            fetchUnreadNotificationCount();
+        });
+
+
+        function checkForUnreadNotifications() {
+            fetchUnreadNotificationCount();
+            console.log('check');
+
+        }
+        setInterval(checkForUnreadNotifications, 60000);
+
+
+    });
+    </script>
 </head>
 
 <body>
