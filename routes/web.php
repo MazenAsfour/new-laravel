@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\NotificationController;
+use App\Models\NotificationRequest; // Update the namespace based on your model location
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,11 @@ use App\Http\Controllers\MenuController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/fetch-notifications', [NotificationController::class, 'fetchNotifications']);
+Route::post('/mark-notification-as-read-by-user/{notification}', [NotificationController::class, 'markAsReadByUser']);
+Route::get('/fetch-unread-notification-count', [NotificationController::class, 'fetchUnreadNotificationCount']);
 
 
 Route::get('/',[App\Http\Controllers\PublicController::class, 'welcome_view']);

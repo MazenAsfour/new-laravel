@@ -2317,11 +2317,23 @@ ul {
 }
 
 /*# sourceMappingURL=style.css.map */
-
+.menu-active{
+   background: #f6f5f1;
+}
 nav.navbar.navbar-expand-lg.navbar-light {
     justify-content: space-between;
 }
 
+@media(max-width:480px){
+nav.navbar.navbar-expand-lg.navbar-light {
+    justify-content: center;
+    gap: 17px;
+}
+}
+
+.navbar-brand{
+    margin: 0;
+}
 /* food menu  */
 
 .food_menu {
@@ -2376,6 +2388,13 @@ nav.navbar.navbar-expand-lg.navbar-light {
         padding: 5px 10px 15px;
     }
 }
+.max-width{
+    max-width: unset;
+}
+    
+    .noAbsolute{
+        position: relative;
+    }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
     /* line 19, E:/169 Dingo Restaurant/169 Dingo Restaurant/169_Dingo_Restautent_html/sass/_food_menu.scss */
@@ -2627,7 +2646,7 @@ nav.navbar.navbar-expand-lg.navbar-light {
     height: 100vh;
     max-height: 100vh;
     position: relative;
-    z-index: 9999;
+    z-index: 1;
 }
 
 .Expensive {
