@@ -26,10 +26,10 @@ class Categories extends Migration
             $table->text('description')->nullable();;
             $table->timestamps();
         });
-        Category::create([
-            "name"=>"uncategorized",
-            "description"=>""
-        ]);
+        // Category::create([
+        //     "name"=>"uncategorized",
+        //     "description"=>""
+        // ]);
     }
 
     /**
