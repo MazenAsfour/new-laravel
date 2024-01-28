@@ -29,8 +29,11 @@ Route::post('/save-request',[App\Http\Controllers\PublicController::class, 'save
 Route::middleware(['dashboardAccess'])->group(function () {
     Route::get('/dashboard/products/data', [App\Http\Controllers\AdminController::class, 'getProdcuts'])->name('products.data');
     Route::get('/dashboard-category/data', [App\Http\Controllers\AdminController::class, 'getCategories'])->name('category.data');
+    Route::get('/dashboard-points/data', [App\Http\Controllers\AdminController::class, 'getPoints'])->name('points.data');
 
     Route::get('/dashboard-users/data', [App\Http\Controllers\AdminController::class, 'getUsers'])->name('users.data');
+
+    Route::post('/dashboard-all-requests-reads',[App\Http\Controllers\AdminController::class, 'make_all_requests_read']);
 
     Route::post('/dashboard-set-options',[App\Http\Controllers\AdminController::class, 'update_options']);
 
@@ -44,11 +47,14 @@ Route::middleware(['dashboardAccess'])->group(function () {
     Route::get('/dashboard-check-password',[App\Http\Controllers\AdminController::class, 'check_password']);
     Route::get('/dashboard-products',[App\Http\Controllers\AdminController::class, 'products']);
     Route::get('/dashboard-categories',[App\Http\Controllers\AdminController::class, 'categories']);
+    Route::get('/dashboard-points',[App\Http\Controllers\AdminController::class, 'points']);
 
     Route::post('/dashboard-add-product',[App\Http\Controllers\AdminController::class, 'add_product']);
     Route::post('/dashboard-update-product',[App\Http\Controllers\AdminController::class, 'update_product']);
     Route::post('/dashboard-delete-product',[App\Http\Controllers\AdminController::class, 'delete_product']);
 
+    Route::post('/dashboard-update-status',[App\Http\Controllers\AdminController::class, 'update_status']);
+    
     Route::post('/dashboard-add-category',[App\Http\Controllers\AdminController::class, 'add_category']);
     Route::post('/dashboard-update-category',[App\Http\Controllers\AdminController::class, 'update_category']);
     Route::post('/dashboard-delete-category',[App\Http\Controllers\AdminController::class, 'delete_category']);

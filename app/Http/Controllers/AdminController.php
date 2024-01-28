@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Mail\Message;
 use App\Models\Product;
 use App\Models\Category;
-
+use App\Models\NotificationRequests;
 use App\Models\Contact;
 use App\Models\Admin;
 use App\Models\User;
@@ -22,6 +22,8 @@ use App\Models\Notifications;
 use App\Http\Controllers\sendEmail;
 use DataTables;
 use App\Models\ConfigOption;
+use Illuminate\Support\Carbon;
+
 class AdminController extends Controller
 {
 
@@ -53,7 +55,11 @@ class AdminController extends Controller
 
         $logo =ConfigOption::where("option_name","logo")->first();
         $name =  ConfigOption::where("option_name","restaurant_name")->first();
-        return view("dashboard/dashboard")->with(compact("logo","name"));
+        $all_requests = NotificationRequests::get()->count();
+        $adminRequestsNonReadable = NotificationRequests::where("is_admin_read")->get()->count();
+        $totalProducts = Product::count();
+        $all_users = User::count();
+        return view("dashboard/dashboard")->with(compact("logo","name","all_users","all_requests","adminRequestsNonReadable","totalProducts"));
         
     }
    
@@ -146,6 +152,10 @@ class AdminController extends Controller
             UserData::where("user_id",$request->id)->delete();
             print_r(json_encode(["success"=>true]));
     }
+
+    public function points(){
+        return view("dashboard/dashboard-points");
+    }
     public function check_password(Request $request){
         $checkAdmin=$this->checkAccess();
         $newPassword=$request->newPassword;
@@ -195,6 +205,63 @@ class AdminController extends Controller
         return DataTables::of($data)
             ->make(true);
     }
+    public function update_status(Request $request){
+        try {
+            $request_id = $request->request_id;
+            $convert_to = $request->convert_to;
+            $notiRow=  NotificationRequests::where("id", $request_id )->first();
+            // dd($request_id);
+            $userData = UserData::where("user_id", $notiRow->user_id)->first();
+            $user_total_points = intval($userData->points );
+            
+            if(intval($convert_to) == 1){
+                $user_total_points = $user_total_points + 1;
+            }else{
+                if($user_total_points !== 0)
+                    $user_total_points = $user_total_points - 1;
+            }
+            UserData::where("user_id", $notiRow->user_id)->update([
+                "points"=>$user_total_points
+            ]);
+            NotificationRequests::where("id", $request_id )->update([
+                "status"=>$convert_to
+            ]);
+            return json_encode(["success"=>true]);
+
+        } catch (\Throwable $th) {
+            return json_encode(["success"=>false,"error"=>$th->getMessage()]);
+        }
+    
+    }
+    public function make_all_requests_read(Request $request)
+    {
+        NotificationRequests::where("is_admin_read",0)->update([
+            "is_admin_read"=>1
+        ]);
+        return json_encode(["success"=>true]);
+
+    }
+    public function getPoints(Request $request)
+    {
+        if($request->isCurrentDay == "1"){
+          
+            $currentDate = Carbon::now()->toDateString();
+
+            $data = NotificationRequests::join('users', 'notification_requests.user_id', '=', 'users.id')
+            ->select('users.email', 'users.name', 'notification_requests.*')
+            ->whereDate('notification_requests.created_at', $currentDate)
+            ->orderBy('notification_requests.id', 'desc')
+            ->get();
+        }else{
+            $data = NotificationRequests::join('users', 'notification_requests.user_id', '=', 'users.id')
+            ->select('users.email', 'users.name', 'notification_requests.*')
+            ->orderBy('notification_requests.id', 'desc')
+            ->get();
+        }
+     
+        return DataTables::of($data)
+            ->make(true);    
+        }
     public function categories(){
 
         return view("dashboard/dashboard-categories");;

@@ -154,6 +154,18 @@
 
     cursor: pointer;
 }
+.notfiy_ {
+    background: #e95201;
+    border-radius: 50px;
+    min-height: 24px;
+    font-weight: 400;
+    min-width: 26px;
+    text-align: center;
+    padding-top: 4px;
+    margin-left: 9px;
+    width: auto;
+    padding: 3px;
+}
 @media only screen and (max-width: 600px) {
     #sidebar .fa-times {
         display: block;

@@ -11,6 +11,7 @@ class NotificationRequests extends Model
 
     protected $fillable = [
         'user_id',
+        'id',
         'is_user_read',
         'status',
     ];

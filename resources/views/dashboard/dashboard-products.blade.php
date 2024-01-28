@@ -87,8 +87,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="square">
-                                        <img class="product-pic"
-                                            src="https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png">
+                                        <img class="product-pic" src="/images/default-placeholder.png">
                                         <div class="p-image">
                                             <i class="fa fa-upload upload-button"></i>
                                             <input id="prodcut-upload" class="file-upload" name="image" type="file"
@@ -161,8 +160,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="square update">
-                                        <img class="product-pic"
-                                            src="https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png">
+                                        <img class="product-pic" src="/images/default-placeholder.png">
                                         <div class="p-image">
                                             <i class="fa fa-upload upload-button"></i>
                                             <input id="prodcut-upload-update" class="file-upload" name="image"
@@ -352,6 +350,8 @@
             }
 
             function lanuchModalInsert() {
+                $("#form")[0].reset();
+                $("#form .product-pic").attr("src", "/images/default-placeholder.png")
                 $('.modal-insert').modal("show");
 
             }

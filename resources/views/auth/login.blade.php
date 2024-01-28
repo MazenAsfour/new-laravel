@@ -42,6 +42,12 @@
             position: relative
         }
 
+        .btn-link {
+            top: -4px;
+            position: relative;
+
+        }
+
         .header {
             font-family: "Means Web", Georgia, Times, "Times New Roman", serif;
             font-size: 3rem;
@@ -138,15 +144,16 @@
                                     {{ $filed }}
                                 </div>
                             @endisset
-                            <button type="submit" class="btn btn-primary w-100 mt-3">
+                            <button type="submit" class="btn btn-primary mb-3 w-100 mt-3">
                                 {{ __('Login') }}
                             </button>
 
-                            @if (Route::has('password.request'))
+                            Don't have account! <a href="/register" class="btn p-0 btn-link"> Register now</a>
+                            {{-- @if (Route::has('password.request'))
                                 <a class="btn btn-link mt-2" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
 

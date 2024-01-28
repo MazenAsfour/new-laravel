@@ -221,6 +221,8 @@
             }
 
             function lanuchModalInsert() {
+                $("#form")[0].reset();
+
                 $('.modal-insert').modal("show");
 
             }

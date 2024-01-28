@@ -98,14 +98,11 @@
                 </div>
                 <div class="col-md-6 order-sm-1">
                     <div class="esqueleto-cartao">
-                        <!-- cartão -->
                         <div class="cartao">
-                            <!-- frente do cartão -->
                             <div class="face-cartao frontal">
                                 <span style="display:none;" id="svgIncludes"></span>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="col-xs-12">
                                             <div class="creditcards">
                                                 <svg class="icon">
@@ -184,20 +181,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade " id="modal-view" tabindex="-1" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-100">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id=""> </h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
 
-                    </div>
-                </div>
-            </div>
-        </div>
 
         @push('custom-scripts')
             <script>

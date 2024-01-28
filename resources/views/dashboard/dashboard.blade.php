@@ -36,8 +36,9 @@
                                     <form id="form-options" class="mt-2" action="/dashboard-set-options"
                                         enctype="multipart/form-data" method="POST">
                                         @csrf
-                                        <img src="{{ $logo->option_value }}" width="100px;height:100px;object-fit:cover"
-                                            alt="">
+                                        <img style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover;"
+                                            src="{{ $logo->option_value }}" alt="">
+
                                         <div class="form-outline mb-4 mt-4">
                                             <label class="form-label" id="">Change Logo</label>
                                             <input type="file" name="image" class="form-control" />
@@ -54,7 +55,7 @@
                                             role="alert">
                                             Updated Seccuessfully
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-block">Update
+                                        <button type="submit" class="btn btn-primary">Update
                                         </button>
                                     </form>
                                 </div>
@@ -62,201 +63,100 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="full counter_section margin_bottom_30">
-                            <div class="couter_icon">
-                                <div>
-                                    <i class="fa fa-user yellow_color"></i>
-                                </div>
-                            </div>
-                            <div class="counter_no">
-                                <div>
-                                    <p class="total_no">250</p>
-                                    <p class="head_couter">Welcome</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-6 row">
 
-                    </div>
-                    <div class="col-md-3">
-                        <div class="full counter_section margin_bottom_30">
-                            <div class="couter_icon">
-                                <div>
-                                    <i class="fa fa-clock-o blue1_color"></i>
+                        <div class="col-md-6">
+                            <div class="full counter_section margin_bottom_30">
+                                <div class="couter_icon">
+                                    <div>
+                                        <i class="fa fa-user yellow_color"></i>
+                                    </div>
+                                </div>
+                                <div class="counter_no">
+                                    <div>
+                                        <p class="total_no">{{ $all_users }}</p>
+                                        <p class="head_couter">Total Users</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="counter_no">
-                                <div>
-                                    <p class="total_no">123.50</p>
-                                    <p class="head_couter">Average Time</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row column1">
 
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="full counter_section margin_bottom_30">
-                            <div class="couter_icon">
-                                <div>
-                                    <i class="fa fa-cloud-download green_color"></i>
-                                </div>
-                            </div>
-                            <div class="counter_no">
-                                <div>
-                                    <p class="total_no">1,805</p>
-                                    <p class="head_couter">Collections</p>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="full counter_section margin_bottom_30">
-                            <div class="couter_icon">
-                                <div>
-                                    <i class="fa fa-comments-o red_color"></i>
+                        <div class="col-md-6">
+                            <div class="full counter_section margin_bottom_30">
+                                <div class="couter_icon">
+                                    <div>
+                                        <i class="fa fa-product-hunt blue1_color"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="counter_no">
-                                <div>
-                                    <p class="total_no">54</p>
-                                    <p class="head_couter">Comments</p>
+                                <div class="counter_no">
+                                    <div>
+                                        <p class="total_no">{{ $totalProducts }}</p>
+                                        <p class="head_couter">Total Porducts</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row column1 social_media_section">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="full socile_icons fb margin_bottom_30">
-                            <div class="social_icon">
-                                <i class="fa fa-facebook"></i>
-                            </div>
-                            <div class="social_cont">
-                                <ul>
-                                    <li>
-                                        <span><strong>35k</strong></span>
-                                        <span>Friends</span>
-                                    </li>
-                                    <li>
-                                        <span><strong>128</strong></span>
-                                        <span>Feeds</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="full socile_icons tw margin_bottom_30">
-                            <div class="social_icon">
-                                <i class="fa fa-twitter"></i>
-                            </div>
-                            <div class="social_cont">
-                                <ul>
-                                    <li>
-                                        <span><strong>584k</strong></span>
-                                        <span>Followers</span>
-                                    </li>
-                                    <li>
-                                        <span><strong>978</strong></span>
-                                        <span>Tweets</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="full socile_icons linked margin_bottom_30">
-                            <div class="social_icon">
-                                <i class="fa fa-linkedin"></i>
-                            </div>
-                            <div class="social_cont">
-                                <ul>
-                                    <li>
-                                        <span><strong>758+</strong></span>
-                                        <span>Contacts</span>
-                                    </li>
-                                    <li>
-                                        <span><strong>365</strong></span>
-                                        <span>Feeds</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="full socile_icons google_p margin_bottom_30">
-                            <div class="social_icon">
-                                <i class="fa fa-google-plus"></i>
-                            </div>
-                            <div class="social_cont">
-                                <ul>
-                                    <li>
-                                        <span><strong>450</strong></span>
-                                        <span>Followers</span>
-                                    </li>
-                                    <li>
-                                        <span><strong>57</strong></span>
-                                        <span>Circles</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- graph -->
-                <div class="row column2 graph margin_bottom_30">
-                    <div class="col-md-l2 col-lg-12">
-                        <div class="white_shd full">
-                            <div class="full graph_head">
-                                <div class="heading1 margin_0">
-                                    <h2>Extra Area Chart</h2>
+                        <div class="col-md-6">
+                            <div class="full counter_section margin_bottom_30">
+                                <div class="couter_icon">
+                                    <div>
+                                        <i class="fa fa-spinner green_color"></i>
+                                    </div>
+                                </div>
+                                <div class="counter_no">
+                                    <div>
+                                        <p class="total_no">{{ $all_requests }}</p>
+                                        <p class="head_couter">All Requests</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="full graph_revenue">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="content">
-                                            <div class="area_chart">
-                                                <canvas height="120" id="canvas"></canvas>
-                                            </div>
-                                        </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="full counter_section margin_bottom_30">
+                                <div class="couter_icon">
+                                    <div>
+                                        <i class="fa fa-bell red_color"></i>
+                                    </div>
+                                </div>
+                                <div class="counter_no">
+                                    <div>
+                                        <p class="total_no">{{ $adminRequestsNonReadable }}</p>
+                                        <p class="head_couter">Requests non readbale</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <script>
-                    $('#form-options').submit(function(e) {
-                        e.preventDefault();
-                        $("#form-options .spinner-border").removeClass("d-none");
+            </div>
+            <script>
+                $('#form-options').submit(function(e) {
+                    e.preventDefault();
+                    $("#form-options .spinner-border").removeClass("d-none");
 
-                        var formData = new FormData(this);
+                    var formData = new FormData(this);
 
-                        $.ajax({
-                            type: 'POST',
-                            url: "/dashboard-set-options",
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            success: function(data) {
-                                res = JSON.parse(data);
-                                $("#form-options .spinner-border").addClass("d-none");
-                                if (res.success) {
-                                    $("#form-options .alert-success").removeClass("ds-none");
+                    $.ajax({
+                        type: 'POST',
+                        url: "/dashboard-set-options",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {
+                            res = JSON.parse(data);
+                            $("#form-options .spinner-border").addClass("d-none");
+                            if (res.success) {
+                                $("#form-options .alert-success").removeClass("ds-none");
 
-                                } else {
-                                    alert(res.error);
-                                }
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 3000);
-                            },
-                            error: function(data) {}
-                        });
+                            } else {
+                                alert(res.error);
+                            }
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        },
+                        error: function(data) {}
                     });
-                </script>
-            @endsection
+                });
+            </script>
+        @endsection

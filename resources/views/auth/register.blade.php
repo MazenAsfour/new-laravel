@@ -74,6 +74,12 @@
         form {
             margin-top: 30px
         }
+
+        .btn-link {
+            top: -4px;
+            position: relative;
+
+        }
     </style>
 @endpush
 
@@ -83,7 +89,8 @@
             <div class="box container" style="position: unset">
 
                 <h4 class="header">{{ __('Register') }}</h4>
-                <p style="padding-top: 10px;line-height:inherit">Already have an account? <a href="/login">Log In</a></p>
+                <p style="padding-top: 10px;line-height:inherit">Already have an account? <a href="/login"
+                        class="btn btn-link p-0">Log In</a></p>
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf

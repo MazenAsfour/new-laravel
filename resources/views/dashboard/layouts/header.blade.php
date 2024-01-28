@@ -1,6 +1,8 @@
 @php
     use App\Models\UserData;
     use App\Models\ConfigOption;
+    use App\Models\NotificationRequests;
+    $countUnreadRequests = NotificationRequests::where('is_admin_read', 0)->count();
     $UserData = UserData::where('user_id', Auth::user()->id)->first();
     $logo = ConfigOption::where('option_name', 'logo')->first();
     $name = ConfigOption::where('option_name', 'restaurant_name')->first();
@@ -44,8 +46,9 @@
                     <div class="sidebar-header">
                         <i class="fa fa-times"></i>
                         <div class="logo_section">
-                            <a href="/dashboard"><img class="logo_icon img-responsive" src="{{ $logo->option_value }}"
-                                    style="object-fit: contain" alt="#" /></a>
+                            <a href="/dashboard"><img class="logo_icon img-responsive rounded-circle"
+                                    src="{{ $logo->option_value }}" style="object-fit: cover;width:62px"
+                                    alt="#" /></a>
                         </div>
                     </div>
                     <div class="sidebar_user_info">
@@ -76,11 +79,15 @@
                         <li><a href="/dashboard-users"><i class="fa fa-users orange_color" aria-hidden="true"></i>
                                 <span>Users</span></a></li>
                         <li><a href="/dashboard-categories"><i class="fa fa-cutlery  red_color" aria-hidden="true"></i>
-                                </i> <span>Catgories</span></a>
+                                </i> <span>Categories</span></a>
                         </li>
                         <li><a href="/dashboard-products"><i class="fa fa-product-hunt  purple_color2"
                                     aria-hidden="true"></i>
                                 </i> <span>Prdoucts</span></a></li>
+
+                        <li><a href="/dashboard-points"><i class="fa fa-user-plus  green_color" aria-hidden="true"></i>
+                                </i> <span>User Points</span><span class="notfiy_"
+                                    id="unread_requests">{{ $countUnreadRequests }}</span></a></li>
 
 
                     </ul>
