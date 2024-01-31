@@ -82,6 +82,12 @@ class AdminController extends Controller
 
     
     }
+    public function update_password_points(Request $request){
+        ConfigOption::where("option_name","points_password")->update([
+            "option_value"=>Hash::make($request->password)
+        ]);
+        print_r(json_encode(["success"=>true]));
+    }
     public function users(){
      
         $adminData = UserData::where('user_id', Auth::user()->id)->first();

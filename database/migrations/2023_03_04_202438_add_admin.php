@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\UserData;
+
 class AddAdmin extends Migration
 {
     /**

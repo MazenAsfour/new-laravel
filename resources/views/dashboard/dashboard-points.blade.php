@@ -32,6 +32,10 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <h2 style="display: inline-block">User Points</h2>
+                                    <span>
+                                        <button class="btn btn-primary" onclick="lanuchModalUpdatePassword()"
+                                            style="margin-left:20px">Update Password Points</button>
+                                    </span>
                                 </div>
                                 <div class="col-md-3 d-flex justify-content-right">
                                     <select name="" class="form-control" id="filler-date">
@@ -148,8 +152,46 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade " id="modal-update-password" tabindex="-1" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog d-flex justify-content-center">
+                <div class="modal-content w-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id=""> Update Points Password </h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal"onclick="hideModal()"
+                            aria-label="Close"></button>
+                    </div>
+                    <form id="points-update-password" action="" method="POST">
+                        <div class="modal-body p-4">
+                            @csrf
+                            <div class="row">
+                                <label for="" style="margin-left: 0;padding-left:0">New Password</label>
+                                <input type="password"placeholder="*********" name="password" required
+                                    class="form-control" />
+
+                                <div class="alert alert-success-update mt-2 alert-success ds-none"
+                                    style="padding:8px 12px;font-size:14px" role="alert">
+                                    Updated Password Successfully
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer p-2">
+                            <div class="spinner-border spinner-border-sm d-none" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 
         <script>
+            function lanuchModalUpdatePassword() {
+                jQuery("#modal-update-password").modal("show");
+            }
             jQuery(document).ready(function($) {
                 prepare()
 
@@ -296,6 +338,38 @@
                             setTimeout(() => {
                                 $(".modal-update").modal("hide")
                                 $(".modal-update .alert-success").hide();
+
+                            }, 3000);
+                        },
+                        error: function(data) {
+                            console.log(data)
+                        }
+                    });
+                });
+                $('#points-update-password').submit(function(e) {
+                    e.preventDefault();
+                    $("#points-update-password .spinner-border").removeClass("d-none")
+                    var formData = new FormData(this);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "/dashboard-update-password-points",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: (data) => {
+                            res = JSON.parse(data)
+                            $("#modal-update-password .spinner-border").addClass("d-none")
+                            if (res.success) {
+                                $("#modal-update-password .alert-success").show();
+
+                            } else {
+                                alert(res.error)
+                            }
+                            setTimeout(() => {
+                                $("#points-update-password").modal("hide")
+                                $("#points-update-password .alert-success").hide();
 
                             }, 3000);
                         },

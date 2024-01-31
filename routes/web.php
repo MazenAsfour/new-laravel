@@ -48,6 +48,7 @@ Route::middleware(['dashboardAccess'])->group(function () {
     Route::get('/dashboard-users/data', [App\Http\Controllers\AdminController::class, 'getUsers'])->name('users.data');
 
     Route::post('/dashboard-all-requests-reads',[App\Http\Controllers\AdminController::class, 'make_all_requests_read']);
+    Route::post('/dashboard-update-password-points',[App\Http\Controllers\AdminController::class, 'update_password_points']);
 
     Route::post('/dashboard-set-options',[App\Http\Controllers\AdminController::class, 'update_options']);
 
