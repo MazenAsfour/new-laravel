@@ -1,9 +1,15 @@
 .esqueleto-cartao {
     position: relative;
-    width: 400px;
+    max-width: 400px;
     height: 236px;
     z-index: 1;
     margin: 0 auto;
+}
+
+@media(max-width:480px){
+    .esqueleto-cartao{
+        margin: 44px auto;
+    }
 }
 .esqueleto-cartao .cartao .face-cartao {
     position: absolute;
