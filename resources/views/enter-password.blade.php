@@ -10,6 +10,8 @@
 <style>
 #app {
     height: 100vh;
+    background: brown;
+
 }
 
 form {

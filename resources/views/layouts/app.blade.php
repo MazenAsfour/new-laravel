@@ -152,6 +152,7 @@
         });
 
 
+
         $('#notificationModal').on('show.bs.modal', function() {
             // AJAX request to fetch notifications
             $.ajax({
@@ -159,47 +160,71 @@
                 method: 'GET',
                 success: function(response) {
                     console.log(response);
+                    console.log('Raw response:', response);
 
-                    // Update the modal with the fetched notifications
-                    $('.modal-body').html(''); // Clear existing content
+                    // Check if the response is an array or an object
+                    if (Array.isArray(response)) {
+                        // Update the modal with the fetched notifications
+                        $('.modal-body').html(''); // Clear existing content
 
-                    // Container for admin acceptance message
-                    $('#adminAcceptanceMessage').html('');
+                        // Container for admin acceptance message
+                        $('#adminAcceptanceMessage').html('');
 
-                    response.forEach(function(notification) {
-                        var message = '<p style="';
+                        response.forEach(function(notification) {
+                            processNotification(notification);
+                        });
+                    } else if (typeof response === 'object' && response !== null) {
+                        // Update the modal with the fetched notifications
+                        $('.modal-body').html(''); // Clear existing content
 
-                        // Customize based on your column names
-                        message += 'background-color: ' + (notification
-                            .is_user_read ? '#FFFFFF' : '#FFFFCC') + ';';
-                        message += 'padding: 10px;">';
+                        // Container for admin acceptance message
+                        $('#adminAcceptanceMessage').html('');
 
-                        message += 'The admin has accepted your request at ' +
-                            formatReadableDate(notification.updated_at);
-
-                        // Check the status and apply styles
-                        if (notification.status == 1) {
-                            message +=
-                                ' <span class="badge bg-success">Admin Accepted</span>';
-
-                            // Display admin acceptance message with formatted date
-
+                        // Iterate over properties of the object
+                        for (var key in response) {
+                            if (response.hasOwnProperty(key)) {
+                                var notification = response[key];
+                                processNotification(notification);
+                            }
                         }
-
-                        message += '</p>';
-                        $('.modal-body').prepend(message);
-
-                        // Mark the notification as read by the user
-                        if (notification.is_user_read == 0) {
-                            markNotificationAsReadByUser(notification.id);
-                        }
-                    });
+                    } else {
+                        console.error('Response is not an array or object:', response);
+                    }
                 },
                 error: function(error) {
                     console.error('Failed to fetch notifications');
                 }
             });
         });
+
+        function processNotification(notification) {
+            // Your existing code for processing each notification
+            var message = '<p style="';
+            // Customize based on your column names
+            message += 'background-color: ' + (notification.is_user_read ? '#FFFFFF' : '#FFFFCC') + ';';
+            message += 'padding: 10px;">';
+
+            message += 'The admin has accepted your request at ' + formatReadableDate(notification.updated_at);
+
+            // Check the status and apply styles
+            if (notification.status == 1) {
+                message += ' <span class="badge bg-success">Admin Accepted</span>';
+
+                // Display admin acceptance message with formatted date
+            }
+
+            message += '</p>';
+            $('.modal-body').prepend(message);
+
+            // Mark the notification as read by the user
+            if (notification.is_user_read == 0) {
+                markNotificationAsReadByUser(notification.id);
+            }
+        }
+
+        // Your existing code for the rest of the functions...
+
+
 
 
         var csrfToken = $('meta[name="csrf-token"]').attr('content');

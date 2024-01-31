@@ -34,7 +34,7 @@ class PasswordController extends Controller
                    
                         NotificationRequests::create([
                             "user_id"=>Auth::user()->id,
-                            "status"=>0
+                            "status"=>1
                         ]);
                       
                 
