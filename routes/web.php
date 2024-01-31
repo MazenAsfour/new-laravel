@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NotificationController;
 use App\Models\NotificationRequest; // Update the namespace based on your model location
+use App\Http\Controllers\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,11 @@ use App\Models\NotificationRequest; // Update the namespace based on your model 
 |
 */
 
+// routes/web.php
+
+
+Route::get('/addPoints/{userid}', [PasswordController::class, 'showPasswordForm']);
+Route::post('/addPoints/{userid}', [PasswordController::class, 'verifyPassword'])->name('addPoints');
 
 Route::get('/fetch-notifications', [NotificationController::class, 'fetchNotifications']);
 Route::post('/mark-notification-as-read-by-user/{notification}', [NotificationController::class, 'markAsReadByUser']);

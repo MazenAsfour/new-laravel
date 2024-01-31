@@ -6,6 +6,17 @@
                     <a class="navbar-brand" href="index.html"> <img class="logo"
                             src="{{ asset('newtheme/img/1600w-9Gfim1S8fHg-removebg-previewas.png') }}" alt="logo">
                     </a>
+                    @auth
+                    <button type="button" class="icon-button displayAnotherModel" data-bs-toggle="modal"
+                        data-bs-target="#notificationModal">
+                        <span class="material-icons">notifications</span>
+                        <span class="icon-button__badge">0</span>
+                    </button>
+                    @endauth
+
+                    @if(request()->is('menu'))
+                    <a href="/profile" class="  btn_2_reverse d-sm-block">profile</a>
+                    @endif
 
                     <div class="menu_btn d-flex gap-2">
                         <a href="tel:0797894561" class="btn_2  d-sm-block"> Phone : 079 7894
@@ -17,11 +28,7 @@
                         <a href="/login" class="  btn_2_reverse d-sm-block">Login / Register</a>
 
                         @endguest
-                        <button type="button" class="icon-button displayAnotherModel" data-bs-toggle="modal"
-                            data-bs-target="#notificationModal">
-                            <span class="material-icons">notifications</span>
-                            <span class="icon-button__badge">0</span>
-                        </button>
+
 
                         <div class="modal fade" id="notificationModal" tabindex="-1"
                             aria-labelledby="notificationModalLabel" aria-hidden="true">
@@ -36,9 +43,27 @@
                                         You Don't have any notifaction
                                     </div>
                                     <div class="modal-footer">
-                                        <!-- <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button> -->
+                                        @auth
+                                        <?php
+    $user = auth()->user();
+
+    if ($user && $userData = $user->userData) {
+        $points = $userData->points;
+    } else {
+        $points = null;
+    }
+    ?>
+                                        <div class="user-points">
+                                            @if($points !== null)
+                                            <p class="points-label">Total Points: <span
+                                                    class="points-display">{{ $points }}</span></p>
+                                            @else
+                                            <p class="error-message">User not authenticated or user data not found</p>
+                                            @endif
+                                        </div>
+                                        @endauth
+
+
                                     </div>
                                 </div>
                             </div>

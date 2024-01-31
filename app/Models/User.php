@@ -27,11 +27,11 @@ class User extends Authenticatable
         'password',
 
     ];
-    public function user_data()
+    public function userData()
     {
-        return $this->belongsTo(UserData::class, 'user_id');
+        return $this->hasOne(UserData::class, 'user_id');
     }
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
