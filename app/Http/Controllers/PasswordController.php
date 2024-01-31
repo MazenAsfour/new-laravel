@@ -31,7 +31,6 @@ class PasswordController extends Controller
                     "user_id"=>Auth::user()->id,
                     "status"=>0
                 ]);
-
                 return response()->json(['success' => true]);
             } else {
                 return response()->json(['success' => false, 'message' => 'User not found.']);

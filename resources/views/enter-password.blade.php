@@ -11,7 +11,6 @@
         #app {
             height: 100vh;
         }
-
         form {
             background-color: #fff;
             /* Set your desired background color */

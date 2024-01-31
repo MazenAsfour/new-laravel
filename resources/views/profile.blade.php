@@ -67,7 +67,7 @@ p {
 
 @media(max-width:600px) {
     .banner_part {
-        height: 100vh;
+        min-height: 100vh;
         padding-top: 116px;
     }
 }
