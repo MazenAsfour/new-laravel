@@ -69,23 +69,30 @@
                     <h4>General</h4>
                     <ul class="list-unstyled components">
                         <li class="active">
-                            <a href="/dashboard"><i class="fa fa-dashboard yellow_color"></i>
+                            <a href="/dashboard"><i class="fa fa-dashboard orange_color2"></i>
                                 <span>Dashboard</span></a>
 
                         </li>
-                        <li><a href="/dashboard-admins"><i class="fa fa-user-plus green_color" aria-hidden="true"></i>
+                        <li><a href="/dashboard-admins"><i class="fa fa-user-plus orange_color2" aria-hidden="true"></i>
                                 <span>Admins</span></a></li>
 
-                        <li><a href="/dashboard-users"><i class="fa fa-users orange_color" aria-hidden="true"></i>
+                        <li><a href="/dashboard-users"><i class="fa fa-users orange_color2" aria-hidden="true"></i>
                                 <span>Users</span></a></li>
-                        <li><a href="/dashboard-categories"><i class="fa fa-cutlery  red_color" aria-hidden="true"></i>
+
+                        <li><a href="/dashboard-users-plus"><i class="fa fa-user-secret orange_color2"
+                                    aria-hidden="true"></i>
+                                <span>Users have more 7 points</span></a></li>
+
+                        <li><a href="/dashboard-categories"><i class="fa fa-cutlery  orange_color2"
+                                    aria-hidden="true"></i>
                                 </i> <span>Categories</span></a>
                         </li>
-                        <li><a href="/dashboard-products"><i class="fa fa-product-hunt  purple_color2"
+                        <li><a href="/dashboard-products"><i class="fa fa-product-hunt  orange_color2"
                                     aria-hidden="true"></i>
                                 </i> <span>Prdoucts</span></a></li>
 
-                        <li><a href="/dashboard-points"><i class="fa fa-user-plus  green_color" aria-hidden="true"></i>
+                        <li><a href="/dashboard-points"><i class="fa fa-user-plus  orange_color2"
+                                    aria-hidden="true"></i>
                                 </i> <span>User Points</span><span class="notfiy_"
                                     id="unread_requests">{{ $countUnreadRequests }}</span></a></li>
 

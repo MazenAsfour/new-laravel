@@ -55,89 +55,89 @@
 
     @stack('custom-style')
     <style>
-    .icon-button {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        color: #333333;
-        background: #dddddd;
-        border: none;
-        outline: none;
-        border-radius: 50%;
-    }
+        .icon-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            color: #333333;
+            background: #dddddd;
+            border: none;
+            outline: none;
+            border-radius: 50%;
+        }
 
-    .icon-button:hover {
-        cursor: pointer;
-    }
+        .icon-button:hover {
+            cursor: pointer;
+        }
 
-    .icon-button:active {
-        background: #cccccc;
-    }
+        .icon-button:active {
+            background: #cccccc;
+        }
 
-    .icon-button__badge {
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        width: 25px;
-        height: 25px;
-        background: red;
-        color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-    }
+        .icon-button__badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 25px;
+            height: 25px;
+            background: red;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
 
-    .date-notify {
-        font-weight: 500
-    }
+        .date-notify {
+            font-weight: 500
+        }
 
-    .bold {
-        font-weight: bolder;
-    }
+        .bold {
+            font-weight: bolder;
+        }
 
-    .total-points {
-        background: #ff6426;
-        padding: 9px;
-        color: #fff;
+        .total-points {
+            background: #ff6426;
+            padding: 9px;
+            color: #fff;
 
-    }
+        }
 
-    #notificationModal .modal-body {
-        max-height: 400px;
-        overflow-x: auto;
-        height: auto;
-    }
+        #notificationModal .modal-body {
+            max-height: 400px;
+            overflow-x: auto;
+            height: auto;
+        }
 
 
-    .user-points {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        margin-top: 10px;
-    }
+        .user-points {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+        }
 
-    .points-label {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+        .points-label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
-    .points-display {
-        font-size: 24px;
-        color: #007bff;
-        /* Set your desired color */
-        margin-left: 5px;
-    }
+        .points-display {
+            font-size: 24px;
+            color: #007bff;
+            /* Set your desired color */
+            margin-left: 5px;
+        }
 
-    .error-message {
-        font-size: 18px;
-        color: red;
-        /* Set your desired color */
-    }
+        .error-message {
+            font-size: 18px;
+            color: red;
+            /* Set your desired color */
+        }
     </style>
 
 
@@ -145,166 +145,165 @@
 
 
     <script>
-    $(document).ready(function() {
-        $(".displayAnotherModel").click(function() {
-            $('.modal-backdrop').css("display", "none");
-            console.log('safasfasfasfasf');
-        });
-
-
-
-        $('#notificationModal').on('show.bs.modal', function() {
-            // AJAX request to fetch notifications
-            $.ajax({
-                url: '/fetch-notifications',
-                method: 'GET',
-                success: function(response) {
-                    console.log(response);
-                    console.log('Raw response:', response);
-
-                    // Check if the response is an array or an object
-                    if (Array.isArray(response)) {
-                        // Update the modal with the fetched notifications
-                        $('.modal-body').html(''); // Clear existing content
-
-                        // Container for admin acceptance message
-                        $('#adminAcceptanceMessage').html('');
-
-                        response.forEach(function(notification) {
-                            processNotification(notification);
-                        });
-                    } else if (typeof response === 'object' && response !== null) {
-                        // Update the modal with the fetched notifications
-                        $('.modal-body').html(''); // Clear existing content
-
-                        // Container for admin acceptance message
-                        $('#adminAcceptanceMessage').html('');
-
-                        // Iterate over properties of the object
-                        for (var key in response) {
-                            if (response.hasOwnProperty(key)) {
-                                var notification = response[key];
-                                processNotification(notification);
-                            }
-                        }
-                    } else {
-                        console.error('Response is not an array or object:', response);
-                    }
-                },
-                error: function(error) {
-                    console.error('Failed to fetch notifications');
-                }
-            });
-        });
-
-        function processNotification(notification) {
-            // Your existing code for processing each notification
-            var message = '<p style="';
-            // Customize based on your column names
-            message += 'background-color: ' + (notification.is_user_read ? '#FFFFFF' : '#FFFFCC') + ';';
-            message += 'padding: 10px;">';
-
-            message += 'The admin has accepted your request at ' + formatReadableDate(notification.updated_at);
-
-            // Check the status and apply styles
-            if (notification.status == 1) {
-                message += ' <span class="badge bg-success">Admin Accepted</span>';
-
-                // Display admin acceptance message with formatted date
-            }
-
-            message += '</p>';
-            $('.modal-body').prepend(message);
-
-            // Mark the notification as read by the user
-            if (notification.is_user_read == 0) {
-                markNotificationAsReadByUser(notification.id);
-            }
-        }
-
-        // Your existing code for the rest of the functions...
-
-
-
-
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        // Function to mark the notification as read by the user
-        function markNotificationAsReadByUser(notificationId) {
-            $.ajax({
-                url: '/mark-notification-as-read-by-user/' + notificationId,
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    console.log('Notification marked as read by user');
-                },
-                error: function(error) {
-                    console.error('Failed to mark notification as read by user');
-                }
-            });
-        }
-
-
-
-        // Function to fetch the count of unread notifications
-        function fetchUnreadNotificationCount() {
-            $.ajax({
-                url: '/fetch-unread-notification-count',
-                method: 'GET',
-                success: function(response) {
-                    // Update the badge with the fetched count
-                    $('.icon-button__badge').text(response.count);
-                },
-                error: function(error) {
-                    console.error('Failed to fetch unread notification count');
-                }
-            });
-        }
-
-        // Call the function when the page loads
         $(document).ready(function() {
-            fetchUnreadNotificationCount();
+            $(".displayAnotherModel").click(function() {
+                $('.modal-backdrop').css("display", "none");
+                console.log('safasfasfasfasf');
+            });
+
+
+
+            $('#notificationModal').on('show.bs.modal', function() {
+                // AJAX request to fetch notifications
+                $.ajax({
+                    url: '/fetch-notifications',
+                    method: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                        console.log('Raw response:', response);
+
+                        // Check if the response is an array or an object
+                        if (Array.isArray(response)) {
+                            // Update the modal with the fetched notifications
+                            $('.modal-body').html(''); // Clear existing content
+
+                            // Container for admin acceptance message
+                            $('#adminAcceptanceMessage').html('');
+
+                            response.forEach(function(notification) {
+                                processNotification(notification);
+                            });
+                        } else if (typeof response === 'object' && response !== null) {
+                            // Update the modal with the fetched notifications
+                            $('.modal-body').html(''); // Clear existing content
+
+                            // Container for admin acceptance message
+                            $('#adminAcceptanceMessage').html('');
+
+                            // Iterate over properties of the object
+                            for (var key in response) {
+                                if (response.hasOwnProperty(key)) {
+                                    var notification = response[key];
+                                    processNotification(notification);
+                                }
+                            }
+                        } else {
+                            console.error('Response is not an array or object:', response);
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Failed to fetch notifications');
+                    }
+                });
+            });
+
+            function processNotification(notification) {
+                // Your existing code for processing each notification
+                var message = '<p style="';
+                // Customize based on your column names
+                message += 'background-color: ' + (notification.is_user_read ? '#FFFFFF' : '#FFFFCC') + ';';
+                message += 'padding: 10px;">';
+
+                message += 'The admin has accepted your request at ' + formatReadableDate(notification.updated_at);
+
+                // Check the status and apply styles
+                if (notification.status == 1) {
+                    message += ' <span class="badge bg-success">Admin Accepted</span>';
+
+                }
+
+                message += '</p>';
+                $('.modal-body').prepend(message);
+
+                // Mark the notification as read by the user
+                if (notification.is_user_read == 0) {
+                    markNotificationAsReadByUser(notification.id);
+                }
+            }
+
+            // Your existing code for the rest of the functions...
+
+
+
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Function to mark the notification as read by the user
+            function markNotificationAsReadByUser(notificationId) {
+                $.ajax({
+                    url: '/mark-notification-as-read-by-user/' + notificationId,
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        console.log('Notification marked as read by user');
+                    },
+                    error: function(error) {
+                        console.error('Failed to mark notification as read by user');
+                    }
+                });
+            }
+
+
+
+            // Function to fetch the count of unread notifications
+            function fetchUnreadNotificationCount() {
+                $.ajax({
+                    url: '/fetch-unread-notification-count',
+                    method: 'GET',
+                    success: function(response) {
+                        // Update the badge with the fetched count
+                        $('.icon-button__badge').text(response.count);
+                    },
+                    error: function(error) {
+                        console.error('Failed to fetch unread notification count');
+                    }
+                });
+            }
+
+            // Call the function when the page loads
+            $(document).ready(function() {
+                fetchUnreadNotificationCount();
+            });
+
+            // Call the function when the notification modal is shown
+            $('#notificationModal').on('show.bs.modal', function() {
+                // Fetch notifications and update the modal content as before
+
+                // After updating the modal, fetch the unread notification count again
+                fetchUnreadNotificationCount();
+            });
+
+
+            function checkForUnreadNotifications() {
+                fetchUnreadNotificationCount();
+                console.log('check');
+
+            }
+            setInterval(checkForUnreadNotifications, 10000);
+
+            function formatReadableDate(dateString) {
+                var date = new Date(dateString);
+
+                var optionsDate = {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                };
+                var optionsTime = {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    // timeZoneName: 'short'
+                };
+
+                var formattedDate = date.toLocaleDateString("en-US", optionsDate);
+                var formattedTime = date.toLocaleTimeString("en-US", optionsTime);
+
+                return formattedDate + " " + formattedTime;
+            }
         });
-
-        // Call the function when the notification modal is shown
-        $('#notificationModal').on('show.bs.modal', function() {
-            // Fetch notifications and update the modal content as before
-
-            // After updating the modal, fetch the unread notification count again
-            fetchUnreadNotificationCount();
-        });
-
-
-        function checkForUnreadNotifications() {
-            fetchUnreadNotificationCount();
-            console.log('check');
-
-        }
-        setInterval(checkForUnreadNotifications, 10000);
-
-        function formatReadableDate(dateString) {
-            var date = new Date(dateString);
-
-            var optionsDate = {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            };
-            var optionsTime = {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                // timeZoneName: 'short'
-            };
-
-            var formattedDate = date.toLocaleDateString("en-US", optionsDate);
-            var formattedTime = date.toLocaleTimeString("en-US", optionsTime);
-
-            return formattedDate + " " + formattedTime;
-        }
-    });
     </script>
 </head>
 

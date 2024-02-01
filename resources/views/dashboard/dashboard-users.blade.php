@@ -340,6 +340,8 @@
                 $("#Email").val($("#email_" + id).text())
                 $(".profile-pic").attr("src", $("#" + id + "img").attr('src'))
                 $("#idSelected").val(id)
+                $("#modal-update .points").val($("#points_" + id).text())
+                $("#modal-update .visa-number").val($("#card_number_" + id).text())
 
             }
 
@@ -347,17 +349,6 @@
                 $('#modal-delete').modal("show");
                 $("#modal-delete #idSelected").val(id)
             }
-
-            function LanuchSendResetPasswordModal(email) {
-                $('.modal-reset-password').modal("show");
-                $("#EmailSelected").text(email)
-            }
-
-            function lanuchModalVerfication(email) {
-                $('.modal-verification').modal("show");
-                $("#EmailVerficationCode").val(email)
-            }
-
 
             function hideModal() {
                 $(".modal").each(function() {
