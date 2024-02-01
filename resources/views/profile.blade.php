@@ -41,7 +41,7 @@ p {
         height: auto;
         max-height: 100vh;
         position: relative;
-        z-index: 9999;
+        z-index: 99;
     }
 
     .order-sm-1 {

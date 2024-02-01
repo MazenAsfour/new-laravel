@@ -25,7 +25,7 @@ Route::get('/addPoints/{userid}', [PasswordController::class, 'showPasswordForm'
 Route::post('/addPoints/{userid}', [PasswordController::class, 'verifyPassword'])->name('addPoints');
 
 Route::get('/fetch-notifications', [NotificationController::class, 'fetchNotifications']);
-Route::post('/mark-notification-as-read-by-user/{notification}', [NotificationController::class, 'markAsReadByUser']);
+Route::get('/markAsReadByUser/', [NotificationController::class, 'markAsReadByUser']);
 Route::get('/fetch-unread-notification-count', [NotificationController::class, 'fetchUnreadNotificationCount']);
 Route::get('/mark-as-read', [NotificationController::class, 'markReaded']);
 

@@ -29,9 +29,10 @@ class PasswordController extends Controller
                 $user->save();
                 NotificationRequests::create([
                     "user_id"=>Auth::user()->id,
-                    "status"=>0
+                    "status"=>1
                 ]);
-                return response()->json(['success' => true]);
+                $userData = UserData::where("user_id",Auth::user()->id)->first();
+                return response()->json(['success' => true , "points" =>$userData->points]);
             } else {
                 return response()->json(['success' => false, 'message' => 'User not found.']);
             }

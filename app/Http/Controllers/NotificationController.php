@@ -1,54 +1,46 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\NotificationRequest;
+
+use  Illuminate\Support\Facades\Hash;
+use  Illuminate\Support\Facades\Auth;
+use App\Models\NotificationRequests;
+use App\Models\UserData;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
     public function fetchNotifications()
     {
-        $notifications = NotificationRequest::all();
+        $notifications = NotificationRequests::where("status",1)->where("user_id",Auth::user()->id)->get();
 
-        $transformedNotifications = $notifications
-    ->filter(function ($notification) {
-        return $notification->status == 1;
-    })
-    ->map(function ($notification) {
-        $message = 'The admin has accepted the point';
+        $unread = NotificationRequests::where("status",1)->where("is_user_read",0)->where("user_id",Auth::user()->id)->count();
 
-        return [
-            'id' => $notification->id,
-            'user_id' => $notification->user_id,
-            'status' => $notification->status,
-            'is_user_read' => $notification->is_user_read,
-            'created_at' => $notification->created_at,
-            'updated_at' => $notification->updated_at,
-            'message' => $message,
-        ];
-    });
+        $totalPoints = UserData::where('user_id', Auth::user()->id)->get()->sum('points');
 
-        return response()->json($transformedNotifications);
+        print_r(json_encode(['data'=>$notifications, "success"=>true , "unreadData"=>$unread,"totalPointes"=>$totalPoints]));
+        die;
     }
 
 
 
-    public function markAsReadByUser(NotificationRequest $notification)
+    public function markAsReadByUser()
     {
-        $notification->is_user_read = 1;
-        $notification->save();
+       NotificationRequests::where("user_id",Auth::user()->id)->where("status",1)->where("is_user_read",0)->update([
+        "is_user_read" =>1
+       ]);
     
         return response()->json(['message' => 'Notification marked as read by user']);
     }
 
 
-    public function fetchUnreadNotificationCount()
-{
-    $count = NotificationRequest::where('status', 1)
-        ->where('is_user_read', 0)
-        ->count();
+//     public function fetchUnreadNotificationCount()
+// {
+//     $count = NotificationRequests::where('status', 1)
+//         ->where('is_user_read', 0)
+//         ->count();
 
-    return response()->json(['count' => $count]);
-}
+//     return response()->json(['count' => $count]);
+// }
 
 }
