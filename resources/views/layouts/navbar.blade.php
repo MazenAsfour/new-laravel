@@ -45,14 +45,14 @@
                                     <div class="modal-footer">
                                         @auth
                                         <?php
-    $user = auth()->user();
+                                            $user = auth()->user();
 
-    if ($user && $userData = $user->userData) {
-        $points = $userData->points;
-    } else {
-        $points = null;
-    }
-    ?>
+                                            if ($user && $userData = $user->userData) {
+                                                $points = $userData->points;
+                                            } else {
+                                                $points = null;
+                                            }
+                                            ?>
                                         <div class="user-points">
                                             @if($points !== null)
                                             <p class="points-label">Total Points: <span
