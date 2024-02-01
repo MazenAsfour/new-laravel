@@ -82,6 +82,13 @@ class AdminController extends Controller
 
     
     }
+
+    public function update_password_points(Request $request){
+        ConfigOption::where("option_name","points_password")->update([
+            "option_value"=>Hash::make($request->password)
+        ]);
+        print_r(json_encode(["success"=>true]));
+    }
     public function users(){
      
         $adminData = UserData::where('user_id', Auth::user()->id)->first();
@@ -192,6 +199,22 @@ class AdminController extends Controller
         $admins = Admin::get("id")->toArray();
         $data = User::leftJoin('personal_data_of_users', 'users.id', '=', 'personal_data_of_users.user_id')
             ->select('users.*', 'personal_data_of_users.*')
+            ->whereNotIn('users.id', $admins)
+            ->get();
+      
+        return DataTables::of($data)
+            ->make(true);
+    }
+    public function users_plus(){
+        return view("dashboard/dashboard_points_plus");
+    }
+    public function getUsersPlusPoints()
+    {
+        $admins = Admin::get("id")->toArray();
+
+        $data = User::leftJoin('personal_data_of_users', 'users.id', '=', 'personal_data_of_users.user_id')
+            ->select('users.id','users.name','users.email', 'personal_data_of_users.points')
+            ->where('personal_data_of_users.points', ">=",7)
             ->whereNotIn('users.id', $admins)
             ->get();
       

@@ -114,14 +114,12 @@
     .points-display {
         font-size: 24px;
         color: #007bff;
-        /* Set your desired color */
         margin-left: 5px;
     }
 
     .error-message {
         font-size: 18px;
         color: red;
-        /* Set your desired color */
     }
     </style>
 
@@ -226,7 +224,6 @@
                 url: '/fetch-unread-notification-count',
                 method: 'GET',
                 success: function(response) {
-                    // Update the badge with the fetched count
                     $('.icon-button__badge').text(response.count);
                 },
                 error: function(error) {
@@ -261,7 +258,6 @@
                 hour: "2-digit",
                 minute: "2-digit",
                 second: "2-digit",
-                // timeZoneName: 'short'
             };
 
             var formattedDate = date.toLocaleDateString("en-US", optionsDate);

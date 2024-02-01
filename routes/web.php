@@ -45,14 +45,18 @@ Route::middleware(['dashboardAccess'])->group(function () {
     Route::get('/dashboard-category/data', [App\Http\Controllers\AdminController::class, 'getCategories'])->name('category.data');
     Route::get('/dashboard-points/data', [App\Http\Controllers\AdminController::class, 'getPoints'])->name('points.data');
 
+    Route::get('/dashboard-users/plus', [App\Http\Controllers\AdminController::class, 'getUsersPlusPoints'])->name('users-plus.data');
     Route::get('/dashboard-users/data', [App\Http\Controllers\AdminController::class, 'getUsers'])->name('users.data');
 
     Route::post('/dashboard-all-requests-reads',[App\Http\Controllers\AdminController::class, 'make_all_requests_read']);
+    Route::post('/dashboard-update-password-points',[App\Http\Controllers\AdminController::class, 'update_password_points']);
 
     Route::post('/dashboard-set-options',[App\Http\Controllers\AdminController::class, 'update_options']);
 
     Route::get('/dashboard',[App\Http\Controllers\AdminController::class, 'index']);
     Route::get('/dashboard-users',[App\Http\Controllers\AdminController::class, 'users']);
+    Route::get('/dashboard-users-plus',[App\Http\Controllers\AdminController::class, 'users_plus']);
+
     Route::post('/dashboard-create-user',[App\Http\Controllers\AdminController::class, 'create_user']);
 
     Route::post('/dashboard-update-user',[App\Http\Controllers\AdminController::class, 'update_user']);
